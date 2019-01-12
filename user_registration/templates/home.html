@@ -1,0 +1,32 @@
+{%extends 'base.html'%}
+{% load static %}
+
+{%block head_title%}
+Home
+{%endblock head_title%}
+
+
+{%block body%}
+    <h2>Homepage</h2>
+    <p>Welcome to my site, {%if user.is_authenticated%}{{user.username}}{%else%}visitor!{%endif%}</p>
+    <p>
+        <strong>Total users registered: </strong>{{user_count}}
+    </p>
+    <div class="container">
+        <!--<div style="position: relative;width: 100%;height: 0;padding-bottom: 56.25%;">-->
+            <!--<iframe width="100%" height="100%" style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;" src="https://www.youtube-nocookie.com/embed/qg_JJ5mOD5A" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+        <!--</div>-->
+        <!--<br>-->
+        {% if user.socialaccount_set.all.0.get_avatar_url %}
+        <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ user.get_full_name }}" style="width: 20%;height: 20%" />
+        <!--0 indicates the site used to sign up first-->
+        {% else %}
+        <img src="{% static 'images/12.jpg' %}" alt="{{ user.get_full_name }}" style="width: 20%;height: 20%" />
+        {% endif %}
+
+        <div style="width: 100%; height: 1000px; position: relative;" >
+            <iframe id="fraDisabled" src="https://drive.google.com/file/d/0B2zGRryvIISRSERxay1FZTdMZk0/preview" width="100%" height="1000px" ></iframe>
+            <div style="width: 100%; height: 80px; position: absolute; opacity: 0; right: 10px; top: 0px;">&nbsp;</div>
+        </div>
+    </div>
+{%endblock%}

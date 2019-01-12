@@ -37,8 +37,52 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'user_registration',
+
+    'crispy_forms',
+
+    'allauth',
+    'django.contrib.sites',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.bitbucket',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.twitter',
 ]
+
+SITE_ID=1
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+ACCOUNT_FORMS = {
+    'signup': 'user_registration.forms.CustomSignupForm',
+
+
+}
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT=100
+
+LOGIN_REDIRECT_URL='home'
+#LOGOUT_REDIRECT_URL='account_login'
+
+ACCOUNT_LOGOUT_REDIRECT_URL ='account_login'
+
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS=True
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE=False
+ACCOUNT_LOGIN_ON_PASSWORD_RESET=True
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION=True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=1    # 1 day
+ACCOUNT_UNIQUE_EMAIL=True
+SOCIALACCOUNT_AUTO_SIGNUP=False
+AUTHENTICATION_BACKENDS=[
+    'django.contrib.auth.backends.AllowAllUsersModelBackend',
+    'django.contrib.auth.backends.AllowAllUsersRemoteUserBackend',
+]
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 30 # One month (defined in seconds)
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,7 +99,11 @@ ROOT_URLCONF = 'blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'templates', 'allauth'),
+            os.path.join(BASE_DIR, 'user_registration', 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,5 +165,33 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
+# STATIC_URL = '/static/'
+
+
+
+# STATICFILES_STORAGE ='django.contrib.staticfiles.storage.StaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 STATIC_URL = '/static/'
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder"
+)
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'user_registration','static'),
+)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+#EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com' # mail service smtp
+EMAIL_HOST_USER = 'dms24081999@gmail.com' # email id
+EMAIL_HOST_PASSWORD = 'fsawkexebivuyccd' #password
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

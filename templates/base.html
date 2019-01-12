@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{%if user.is_authenticated%}{{user.username}}{%else%}Welcome{%endif%} - {%block head_title%}{%endblock head_title%}</title>
+
+    <!--Google AdSense-->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-2901069949778423",
+        enable_page_level_ads: true
+      });
+    </script>
+    <!--Google AdSense-->
+
+    {% include "base/base_css.html" %}
+
+    {%block head%}
+    {%endblock head%}
+
+</head>
+<!---->
+<body id="outercontent" class="bg-light" oncontextmenu="return false;">
+    <div>
+        {% include "base/navbar.html" with sitename="DMS" link="link" %}
+        <br>
+        <div>
+            <div class="container" id="content">
+                {%block body%}
+                {%endblock body%}
+            </div>
+        </div>
+    </div>
+    {% include "base/base_js.html" %}
+</body>
+</html>
