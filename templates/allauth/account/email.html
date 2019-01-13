@@ -1,4 +1,4 @@
-{% extends "allauth_registration/settings.html" %}
+{% extends "settings.html" %}
 
 {% load crispy_forms_tags %}
 {% load i18n %}
@@ -13,29 +13,24 @@
 <form action="{% url 'account_email' %}" class="email_list" method="post" novalidate>
     {% csrf_token %}
     <fieldset class="blockLabels">
+        {% include "components/errors/error_box_type1.html" with errors=form.non_field_errors error_print=form.non_field_errors|striptags %}
+ <!--{% for emailaddress in user.emailaddress_set.all %}-->
+<!--<div class="ctrlHolder">-->
+      <!--<label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}">-->
 
-        <!--{% for emailaddress in user.emailaddress_set.all %}-->
-            <!--<div class="ctrlHolder input-group-btn" data-toggle="buttons">-->
-                <!--<label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%} btn btn-block btn-secondary" id="emails_radio">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-lg-7">-->
-                            <!--<input class="custom-control-input" id="email_radio_{{forloop.counter}}" type="radio" name="email" value="{{emailaddress.email}}"-->
-                                <!--autocomplete="off" />-->
-                            <!--{{ emailaddress.email }}-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-4">-->
-                            <!--{% if emailaddress.verified %}-->
-                                <!--<span class="verified">{% trans "Verified" %}</span>-->
-                            <!--{% else %}-->
-                                <!--<span class="unverified">{% trans "Unverified" %}</span>-->
-                            <!--{% endif %}-->
-                            <!--{% if emailaddress.primary %}<span class="primary">{% trans "Primary" %}</span>{% endif %}-->
-                        <!--</div>-->
+      <!--<input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>-->
 
-                    <!--</div>-->
-                <!--</label>-->
-            <!--</div>-->
-        <!--{% endfor %}-->
+<!--{{ emailaddress.email }}-->
+    <!--{% if emailaddress.verified %}-->
+    <!--<span class="verified">{% trans "Verified" %}</span>-->
+    <!--{% else %}-->
+    <!--<span class="unverified">{% trans "Unverified" %}</span>-->
+    <!--{% endif %}-->
+      <!--{% if emailaddress.primary %}<span class="primary">{% trans "Primary" %}</span>{% endif %}-->
+<!--</label>-->
+<!--</div>-->
+  <!--{% endfor %}-->
+
 
         {% for emailaddress in user.emailaddress_set.all %}
             <div class="ctrlHolder custom-control custom-radio">
@@ -82,6 +77,8 @@
 
     <form method="post" action="{% url 'account_email' %}" class="add_email" novalidate>
         {% csrf_token %}
+        {% include "components/errors/error_box_type1.html" with errors=form.non_field_errors error_print=form.non_field_errors|striptags %}
+
         {{ form|crispy }}
         <button class="btn btn-primary" name="action_add" type="submit">{% trans "Add E-mail" %}</button>
     </form>

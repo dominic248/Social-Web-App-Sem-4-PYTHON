@@ -1,4 +1,4 @@
-{% extends "allauth_registration/settings.html" %}
+{% extends "settings.html" %}
 
 {% load crispy_forms_tags %}
 {% load i18n %}
@@ -7,7 +7,7 @@
 
 {% block content %}
 
-    <h1 xmlns="http://www.w3.org/1999/html">{% trans "Account Connections" %}</h1>
+    <h1>{% trans "Account Connections" %}</h1>
 
     {% if form.accounts %}
         <p>{% blocktrans %}You can sign in to your account using any of the following third party accounts:{% endblocktrans %}</p>
@@ -25,7 +25,12 @@
                             <div class="input-group-btn" data-toggle="buttons">
                                 {% for base_account in form.accounts %}
                                     {% with base_account.get_provider_account as account %}
-                                        {% include "components/radiobutton/radiobutton_type1.html" with id=base_account.id class_name=account.get_brand.name %}
+
+                                        <label for="id_account_{{ base_account.id }}" class="btn btn-block btn-social btn-{{ account.get_brand.name }}" id="connections_radio">
+                                            <span class="fa fa-{{ account.get_brand.name }}"></span>
+                                            <input id="id_account_{{ base_account.id }}" type="radio" name="account" value="{{ base_account.id }}" autocomplete="off" style="display:none;" />
+                                            {{account.get_brand.name}}: {{ account }}
+                                        </label>
                                     {% endwith %}
                                 {% endfor %}
                             </div>

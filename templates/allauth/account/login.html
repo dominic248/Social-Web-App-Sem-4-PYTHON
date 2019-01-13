@@ -45,7 +45,11 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-12 mb-0">
-                {% include "components/checkbox/checkbox_type1.html" with label=form.remember.label name=form.remember.name %}
+                
+                <div class="custom-control custom-checkbox" id="div_id_{{ form.remember.name }}">
+                    <input type="checkbox" name="{{ form.remember.name }}" class="custom-control-input" id="id_{{ form.remember.name }}" >
+                    <label for="id_{{ form.remember.name }}" class="custom-control-label">{{ form.remember.label }}</label>
+                </div>
             </div>
         </div>
 
