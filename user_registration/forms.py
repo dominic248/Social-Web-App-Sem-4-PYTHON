@@ -39,5 +39,6 @@ class CustomSignupForm(SignupForm):
         user.set_password(self.cleaned_data['password1'])
         user.save()
         return user
+
     field_order = ['first_name','last_name','email','username','password1','password2']
 

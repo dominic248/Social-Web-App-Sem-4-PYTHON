@@ -43,8 +43,7 @@
                             {{ form.email|as_crispy_field }}
                             {{ form.username|as_crispy_field }}
                             {{ form.password1|as_crispy_field }}
-                            {{ form.password2|as_crispy_field }}
-
+                            {{ form.password1|as_crispy_field }}
 
                           {% if redirect_field_value %}
                           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
