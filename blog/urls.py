@@ -17,9 +17,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from hashtags.views import HashTagView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('user_registration.urls')),
-]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('post/', include('posts.urls',namespace='post')),
+    path('tags/<hashtag>/', HashTagView.as_view(),name='post-hashtags'),
+    path('api-auth/', include('rest_framework.urls')),
+    path('post/api/', include('posts.api.urls',namespace='post-api')),
+    path('user/api/', include('user_registration.api.urls',namespace='user-api'))
+]
+urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

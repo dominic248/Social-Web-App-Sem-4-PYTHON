@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from allauth.account.forms import SignupForm
 from django import forms
+from PIL import Image
+from django.core.files import File
 
 # UserForm,AddEmailForm
 
@@ -28,6 +30,15 @@ class CustomSignupForm(SignupForm):
         self.fields['password2'] = forms.CharField(required=True, help_text='Enter the same password as before, for verification.',
                                     label='Confirm Password',
                                     widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+        self.fields['location'] = forms.CharField(max_length=30, required=True, label='Location',
+                                     widget=forms.TextInput(attrs={'placeholder': 'Location'}))
+        self.fields['image'] = forms.ImageField()
+
+        self.fields['x'] = forms.FloatField(widget=forms.HiddenInput())
+        self.fields['y'] = forms.FloatField(widget=forms.HiddenInput())
+        self.fields['width'] = forms.FloatField(widget=forms.HiddenInput())
+        self.fields['height'] = forms.FloatField(widget=forms.HiddenInput())
+
     def save(self, request):
         user = super(CustomSignupForm, self).save(request)
         # Add your own processing here.
@@ -37,8 +48,22 @@ class CustomSignupForm(SignupForm):
         user.email = self.cleaned_data['email']
         user.username = self.cleaned_data['username']
         user.set_password(self.cleaned_data['password1'])
+        user.profile.location = self.cleaned_data['location']
+        user.profile.image = self.cleaned_data['image']
         user.save()
+        if user.profile.image:
+            print('image present')
+
+        x = self.cleaned_data.get('x')
+        y = self.cleaned_data.get('y')
+        w = self.cleaned_data.get('width')
+        h = self.cleaned_data.get('height')
+        print(x,y,w,h)
+        images = Image.open(user.profile.image)
+        cropped_image = images.crop((x, y, w + x, h + y))
+        resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+        resized_image.save(user.profile.image.path)
         return user
 
-    field_order = ['first_name','last_name','email','username','password1','password2']
+    field_order = ['first_name','last_name','email','username','password1','password2','location','image','x', 'y', 'width', 'height',]
 

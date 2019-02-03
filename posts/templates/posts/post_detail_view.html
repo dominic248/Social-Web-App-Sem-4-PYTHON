@@ -1,0 +1,13 @@
+{%extends 'base.html'%}
+{% load static %}
+
+{%block head_title%}
+Posts
+{%endblock head_title%}
+
+
+{%block body%}
+{{post.content}}<br>
+{{post.user}}<br>
+{{post.created_on|timesince}}
+{%endblock%}

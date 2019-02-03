@@ -24,17 +24,27 @@
 
 </head>
 <!---->
-<body id="outercontent" class="bg-light" oncontextmenu="return false;">
+<body id="outercontent" class="bg-light" ><!--oncontextmenu="return false;"-->
     <div>
         {% include "base/navbar.html" with sitename="DMS" link="link" %}
         <br>
+
         <div>
             <div class="container" id="content">
+                <!--<button class="mdc-fab mdc-fab&#45;&#45;mini mdc-fab&#45;&#45;extended" aria-label="Add">-->
+                  <!--<span class="mdc-fab__icon material-icons">add</span>Hi-->
+                <!--</button>-->
                 {%block body%}
                 {%endblock body%}
             </div>
         </div>
     </div>
+    {%block nocontainerbody%}
+    {%endblock nocontainerbody%}
+
     {% include "base/base_js.html" %}
+
+    {% block javascript %}
+    {% endblock %}
 </body>
 </html>

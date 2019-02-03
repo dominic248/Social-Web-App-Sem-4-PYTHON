@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +26,7 @@ SECRET_KEY = '9rj5op8bsb%&1b#y-1(*^=xnizxq)tmkc#1%r!yb^^du+r1ngq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['53a7ff2e.ngrok.io','127.0.0.1']
 
 
 # Application definition
@@ -39,8 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'user_registration',
+    'posts',
+    'hashtags',
 
     'crispy_forms',
+    'rest_framework',
 
     'allauth',
     'django.contrib.sites',
@@ -51,6 +55,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.twitter',
 ]
+
 
 SITE_ID=1
 ACCOUNT_EMAIL_REQUIRED=True
@@ -179,7 +184,7 @@ STATICFILES_FINDERS = (
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'staticfiles')
 
 MEDIA_URL='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')

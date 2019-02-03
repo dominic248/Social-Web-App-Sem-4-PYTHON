@@ -1,0 +1,35 @@
+{%extends 'base.html'%}
+{% load static %}
+
+{%block head_title%}
+Profile
+{%endblock head_title%}
+
+
+{%block body%}
+{{object.username}}<br>
+<p>
+    <a href='{{object.profile.get_follow_url}}'>
+        {% if following %}Unfollow{% else %}Follow{% endif %}
+    </a>
+</p>
+<h4>Following: {{object.profile.get_following.count}}</h4>
+{% for users in object.profile.get_following.all %}
+<a href="/profile/{{users.username}}">{{users.username}}</a><br>
+{% empty %}
+<h6>Not following any users!</h6><br>
+{% endfor %}
+<h4>Followers: {{object.followed_by.all.count}}</h4>
+{% for users in object.followed_by.all %}
+<a href="/profile/{{users.user.username}}">{{users.user.username}}</a><br>
+{% empty %}
+<h6>Not followed by any users!</h6>
+{% endfor %}
+<br>
+
+<h4>Posts</h4>
+{% for post in user.post_set.all %}
+{{post}}<br>
+{% endfor %}
+
+{%endblock%}

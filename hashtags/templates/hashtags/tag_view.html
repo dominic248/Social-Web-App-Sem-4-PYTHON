@@ -1,0 +1,19 @@
+{%extends 'base.html'%}
+{% load static %}
+
+{%block head_title%}
+Posts List
+{%endblock head_title%}
+
+
+{%block body%}
+
+    <div>
+        <h4>{{obj.tag}}</h4>
+        {% for posts in obj.get_posts %}
+        {{posts}}<br>
+        {% endfor %}
+    </div>
+
+{%endblock%}
+
