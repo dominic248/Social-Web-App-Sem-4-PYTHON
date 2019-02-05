@@ -87,9 +87,9 @@ Posts List
 
             function updateHashLinks(){
                 $(".posts").each(function(data){
-                    var hashTagRegex= /(^|\s)#([\w\d-]+)/g
+                    var hashTagRegex= /(^|\s)*#([\w\d-]+)/g
                     var newText=$(this).html().replace(hashTagRegex,
-                        "$1<a href='/tags/$2'>#$2</a>")
+                        "$1<a href='/tags/$2/'>#$2</a>")
                     $(this).html(newText)
                 })
             }
