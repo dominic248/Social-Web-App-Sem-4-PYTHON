@@ -61,7 +61,7 @@ class CustomSignupForm(SignupForm):
         print(x,y,w,h)
         images = Image.open(user.profile.image)
         cropped_image = images.crop((x, y, w + x, h + y))
-        resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+        resized_image = cropped_image.resize((600, 600), Image.ANTIALIAS)
         resized_image.save(user.profile.image.path)
         return user
 

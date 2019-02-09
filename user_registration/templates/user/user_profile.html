@@ -28,8 +28,20 @@ Profile
 <br>
 
 <h4>Posts</h4>
-{% for post in user.post_set.all %}
-{{post}}<br>
-{% endfor %}
+    <div id="post-container" data-url="/profile/{{object.username}}/api/">
+        </div>
+        <div>
+            <a href="#" id="load_more_posts">Load More Posts</a>
+        </div>
+
+
 
 {%endblock%}
+
+{% block javascript %}
+    <script>
+        $(document).ready(function(){
+            loadPostData("post-container")
+        });
+    </script>
+{% endblock %}
