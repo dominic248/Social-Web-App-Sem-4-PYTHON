@@ -8,12 +8,22 @@ Posts List
 
 {%block body%}
 
-    <div>
-        <h4>{{obj.tag}}</h4>
-        {% for posts in obj.get_posts %}
-        {{posts}}<br>
-        {% endfor %}
-    </div>
+<h4>{{obj.tag}}</h4>
+
+<div id="post-container" data-url="/tags/{{obj.tag}}/api/">
+        </div>
+        <div>
+            <a href="#" id="load_more_posts">Load More Posts</a>
+        </div>
+
+
 
 {%endblock%}
 
+{% block javascript %}
+    <script>
+        $(document).ready(function(){
+            loadPostData("post-container")
+        });
+    </script>
+{% endblock %}

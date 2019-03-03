@@ -1,0 +1,23 @@
+<div class='modal fade' id='deleteModal' tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true'>
+  <div class='modal-dialog' role='document'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title'>Delete</h5>
+        <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+          <span aria-hidden='true'>&times;</span>
+        </button>
+      </div>
+      <div class='modal-body'>
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class='modal-footer'>
+        <form id='delform' class='form' href='' method='DELETE' >
+            {% csrf_token %}
+                <button id='DELETE' type="submit" class="btn btn-secondary" >Confirm Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

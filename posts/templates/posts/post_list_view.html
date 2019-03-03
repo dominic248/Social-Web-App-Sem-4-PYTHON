@@ -8,7 +8,9 @@ Posts List
 
 {%block body%}
 
+
     <div>
+        {% include "posts/post_conf_del.html" %}
         {% include "posts/search_posts.html" %}
         <form class="form" method="POST" action="{{create_url}}" id="post-form">
             {% csrf_token %}

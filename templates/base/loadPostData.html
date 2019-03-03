@@ -1,5 +1,6 @@
 {% load static %}
 <script>
+
     function getParameterByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, '\\$&');
@@ -8,8 +9,24 @@
         if (!results) return null;
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, ' '));
-        }
+    }
 
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
 
     function loadPostData(formID){
             var typingTimer;
@@ -26,7 +43,85 @@
             var initialURL=postContainer.attr("data-url") || "/post/api/"
             console.log(initialURL)
 
+            var postIDdel
+            $(document.body).on("click",".post-del",function(e){
+                e.preventDefault()
+                var this_=$(this)
+                postIDdel=this_.attr("data-id")
+                console.log(postIDdel)
+                var delURL="/post/api/"+postIDdel+"/delete/"
+                $("#delform").attr("href", delURL)
+                $('#deleteModal').modal('show');
 
+            });
+
+
+            $('#delform').submit(function(event){
+                event.preventDefault()
+                var this_=$(this)
+                console.log(postIDdel)
+                var divID="post-"+postIDdel
+
+                var delURL="/post/api/"+postIDdel+"/delete/"
+                var formData=this_.serializeArray();
+                var formDataJSON = {};
+                $.map(formData, function(n, i){
+                    formDataJSON[n['name']] = n['value'];
+                });
+
+                console.log(formDataJSON)
+                $.ajax({
+                    method: "DELETE",
+                    url: delURL,
+                    data: formDataJSON,
+                    success: function(data){
+                        console.log("Deleted")
+                        $('#deleteModal').modal('hide');
+                        console.log(divID)
+                        document.getElementById(divID).remove();
+
+                    },
+                    error: function(data){
+                        console.log("error")
+                        console.log(data)
+                    },
+                    beforeSend: function(xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                })
+            });
+
+
+            $(document.body).on("click",".post-like",function(e){
+                e.preventDefault()
+                var this_=$(this)
+                var postID=this_.attr("data-id")
+                var postIDname="post"+postID
+                console.log(postIDname)
+                var likedURL="/post/api/"+postID+"/like/"
+                //this_.text("Liked")
+                document.getElementById(postIDname).innerHTML='favorite'
+                $.ajax({
+                    method: "GET",
+                    url: likedURL,
+                    success: function(data){
+                        if(data.liked){
+                            //this_.text("Liked")
+                            console.log("Liked")
+                            document.getElementById(postIDname).innerHTML='favorite'
+
+                        }else{
+                            console.log("Unliked")
+                            //this_.text("Unliked")
+                            document.getElementById(postIDname).innerHTML='favorite_border'
+                        }
+                    },
+                    error: function(data){
+                        console.log("error")
+                        console.log(data)
+                    }
+                })
+            })
             searchInput.keyup(function(event){
                 searchQuery=$(this).val()
                 clearTimeout(typingTimer)
@@ -55,10 +150,10 @@
                     var currentHtml=$(this).html()
                     var newText
                     newText=currentHtml.replace(hashTagRegex,
-                        "$1<a href='/tags/$2/'>#$2</a>")
+                        "$1<a href='/tags/$2/' style='text-decoration:none;'>#$2</a>")
 
                     newText=newText.replace(usernameRegex,
-                        "$1<a href='/profile/$2/'>@$2</a>")
+                        "$1<a href='/profile/$2/' style='text-decoration:none;'>@$2</a>")
                     $(this).html(newText)
 
                 })
@@ -68,6 +163,10 @@
                 var postContent=postValue.content;
                 var postTimeSince=postValue.timesince;
                 var postUser=postValue.user;
+                var is_liked='favorite_border'
+                if(postValue.did_like){
+                    is_liked='favorite'
+                }
                 var postURL=postValue.get_absolute_url;
                 var postUserImage=postValue.user.profile.image
                 if (postUserImage === null || postUserImage === undefined) {
@@ -76,14 +175,27 @@
                 var imageFormattedHTML="<img src=\'"+postUserImage+"\' alt=\'"+postUser.first_name+" "+postUser.last_name+
                         "\'  style=\"width:25px;float: left;\" class=\"border  rounded-circle border-white\" />"
                 var postFormattedHTML=
-                        "<div class=\'posts\'><h5>"+"<a href='"+postUser.url+"'>"+
-                        imageFormattedHTML+postUser.username+"</a></h5>"+
-                        postContent+"<br>"+
-                        postTimeSince+"<br>"+
-                        "<a href='"+postURL+"'>View</a> | "+
-                        "<a href='"+postURL+"edit'>Update</a> | "+
-                        "<a href='"+postURL+"delete'>Delete</a>"+
-                        "</div><hr>"
+                    //"<div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'>"+
+                         "<div class='card posts' id='post-"+postValue.id+"' style='width: 30rem;'>"+
+                              "<div class='card-body'>"+
+                                "<h5 class='card-title'><a href='"+postUser.url+"' style='text-decoration:none;'>"+imageFormattedHTML+postUser.username+"</a>"+
+                                    "<span style='float: right;'><a data-toggle='dropdown'><img src='{% static 'images/more-24.png' %}'></a>"+
+                                    "<div class='dropdown-menu dropdown-menu-right'>"+
+                                    "<small><a class='dropdown-item' href='"+postURL+"edit'>Update</a></small>"+
+                                    "<small><a class='dropdown-item' href='"+postURL+"delete'>Delete</a></small>"+
+                                    "<small><a class='dropdown-item post-del' data-id='"+postValue.id+"'>Delete2</a></small>"+
+                                "</div></span></h5>"+
+                                "<small class='card-subtitle mb-2 text-muted'><a href='"+postURL+"' style='color:black;text-decoration:none;'>"+postTimeSince+"</a></small>"+
+                                "<p class='card-text'>"+postContent+"</p>"+
+                                //"<a href='#' class='card-link post-like' >"+is_liked+"("+postValue.likes+")</a>"+
+                                "<button id='post"+postValue.id+"' class='mdc-icon-button material-icons post-like' data-id='"+postValue.id+"'>"+is_liked+"</button>"+
+                                //"<div ></div>"+
+                              "</div>"+
+                             // "<button class='mdc-icon-button material-icons post-like' data-id='"+postValue.id+"'>share</button>"+
+
+                         "</div>"+
+                    "<br>"
+
                 if(prepend==true){
                     postContainer.prepend(postFormattedHTML)
                 }else{
@@ -174,3 +286,12 @@
             })
         }
 </script>
+<!--"<div class=\'posts\'><h5>"+"<a href='"+postUser.url+"'>"+-->
+                        <!--imageFormattedHTML+postUser.username+"</a></h5>"+-->
+                        <!--postContent+"<br>"+-->
+                        <!--postTimeSince+"<br>"+-->
+                        <!--"<a href='#' class='post-like' data-id='"+postValue.id+"'>"+is_liked+"("+postValue.likes+")</a> | "+-->
+                        <!--"<a href='"+postURL+"'>View</a> | "+-->
+                        <!--"<a href='"+postURL+"edit'>Update</a> | "+-->
+                        <!--"<a href='"+postURL+"delete'>Delete</a>"+-->
+                        <!--"</div><hr>"-->
