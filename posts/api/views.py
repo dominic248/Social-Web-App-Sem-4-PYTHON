@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView,CreateAPIView,DestroyAPIView
+from rest_framework.generics import ListAPIView,CreateAPIView,DestroyAPIView,UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions,status
@@ -7,6 +7,9 @@ from .serializers import PostModelSerializer
 from django.db.models import Q
 from .pagination import StandardResultsPagination
 from django.shortcuts import get_object_or_404
+
+import json
+from django.core.exceptions import PermissionDenied
 
 class LikeAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -20,6 +23,10 @@ class LikeAPIView(APIView):
 
 class PostDetailAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = StandardResultsPagination
+    serializer_class = PostModelSerializer
+    lookup_field = 'pk'
+    queryset = Post.objects.all()
     def get(self,request,pk):
         post_qs=get_object_or_404(Post,pk=pk)
         serializer= PostModelSerializer(post_qs)
@@ -61,6 +68,34 @@ class PostListAPIView(ListAPIView):
         return qs
 
 class PostDeleteAPIView(DestroyAPIView):
-    queryset = Post.objects.all()
     serializer_class = PostModelSerializer
+    permission_classes = [permissions.IsAuthenticated]
     lookup_field = 'pk'
+    queryset=Post.objects.all()
+    def get_queryset(self,*args,**kwargs):
+        data = self.request.is_ajax()
+        print(self.request.data)
+        pk=json.loads(self.request.data["pk"])
+        post=Post.objects.get(pk=pk)
+        print(post.user)
+        if post.user!=self.request.user:
+            raise PermissionDenied
+        elif post.user==self.request.user:
+            return Post.objects.all()
+
+class PostUpdateAPIView(UpdateAPIView):
+    serializer_class = PostModelSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'pk'
+    queryset = Post.objects.all()
+    def get_queryset(self,*args,**kwargs):
+        data = self.request.is_ajax()
+        print(self.request.data)
+        pk=json.loads(self.request.data["pk"])
+        post=Post.objects.get(pk=pk)
+        print(post.user,pk)
+        if post.user!=self.request.user:
+            raise PermissionDenied
+        elif post.user==self.request.user:
+            return Post.objects.all()
+

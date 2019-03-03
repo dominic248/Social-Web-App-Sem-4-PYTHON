@@ -1,5 +1,6 @@
 {%extends 'base.html'%}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {%block head_title%}
 Posts List
@@ -9,13 +10,17 @@ Posts List
 {%block body%}
 
 
-    <div>
-        {% include "posts/post_conf_del.html" %}
+    <div class="container">
+        {% include "posts/post_modal.html" %}
         {% include "posts/search_posts.html" %}
         <form class="form" method="POST" action="{{create_url}}" id="post-form">
             {% csrf_token %}
-            {{ createForm.as_p }}
-            <input type="submit" value="Post">
+                <div class="card" style="width:45rem;height:14rem">
+                  <div class="card-body">
+                    {{ createForm.content|as_crispy_field }}
+                    <input class="btn btn-primary" type="submit" value="Post">
+                  </div>
+                </div>
         </form><br>
 
         <div id="post-container" data-url="/post/api/">
@@ -24,7 +29,6 @@ Posts List
         <div>
             <a href="#" id="load_more_posts">Load More Posts</a>
         </div>
-
         <!--{% for object in object_list %}-->
             <!--{{object.content}} |-->
             <!--{{object.user}}<br>-->
@@ -34,7 +38,6 @@ Posts List
             <!--<a href="{{object.get_absolute_url}}delete">Delete</a>-->
             <!--<br>-->
             <!--<hr>-->
-
         <!--{% empty %}-->
             <!--{% if request.GET.q %}-->
                 <!--<h4>No Posts found!</h4>-->

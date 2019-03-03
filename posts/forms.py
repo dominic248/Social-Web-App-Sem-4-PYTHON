@@ -4,7 +4,7 @@ from .models import Post
 
 class PostModelForm(forms.ModelForm):
     content=forms.CharField(label='',widget=forms.Textarea(
-        attrs={'placeholder':"Your message"}
+        attrs={'placeholder':"Your message",'rows':"5"}
     ))
     class Meta:
         model=Post

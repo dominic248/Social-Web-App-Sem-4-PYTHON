@@ -43,32 +43,75 @@
             var initialURL=postContainer.attr("data-url") || "/post/api/"
             console.log(initialURL)
 
+
+            searchInput.keyup(function(event){
+                searchQuery=$(this).val()
+                clearTimeout(typingTimer)
+                typingTimer=setTimeout(doneSearchTyping,doneInterval)
+            })
+
+            searchInput.keydown(function(event){
+                clearTimeout(typingTimer)
+            })
+
+            function doneSearchTyping(){
+                if(searchQuery){
+                    var url='/post/?q='+searchQuery
+                    document.location.href=url;
+                }
+            }
+
+            var query=getParameterByName('q')
+            var postList=[];
+            var nextPostURL;
+
+            function updateHashLinks(){
+                $(".posts").each(function(data){
+                    var hashTagRegex= /(^|\s)*#([\w\d-]+)/g
+                    var usernameRegex= /(^|\s)*@([\w\d-]+)/g
+                    var currentHtml=$(this).html()
+                    var newText
+                    newText=currentHtml.replace(hashTagRegex,
+                        "$1<a href='/tags/$2/' style='text-decoration:none;'>#$2</a>")
+
+                    newText=newText.replace(usernameRegex,
+                        "$1<a href='/profile/$2/' style='text-decoration:none;'>@$2</a>")
+                    $(this).html(newText)
+
+                })
+            }
+
             var postIDdel
+            var postContentdel
+            var postUserdel
             $(document.body).on("click",".post-del",function(e){
                 e.preventDefault()
                 var this_=$(this)
                 postIDdel=this_.attr("data-id")
+                postContentdel=document.getElementById('postContent'+postIDdel).innerHTML
+                document.getElementById('modalContentdel').innerHTML=postContentdel
+                postUserdel=document.getElementById('postUser'+postIDdel).innerHTML
+                document.getElementById('modalUserdel').innerHTML=postUserdel
                 console.log(postIDdel)
                 var delURL="/post/api/"+postIDdel+"/delete/"
                 $("#delform").attr("href", delURL)
+                document.getElementById('modalTitledel').innerHTML="Delete"
                 $('#deleteModal').modal('show');
 
             });
-
-
             $('#delform').submit(function(event){
                 event.preventDefault()
                 var this_=$(this)
                 console.log(postIDdel)
                 var divID="post-"+postIDdel
-
                 var delURL="/post/api/"+postIDdel+"/delete/"
                 var formData=this_.serializeArray();
                 var formDataJSON = {};
                 $.map(formData, function(n, i){
                     formDataJSON[n['name']] = n['value'];
                 });
-
+                console.log(formDataJSON)
+                formDataJSON['pk']=postIDdel
                 console.log(formDataJSON)
                 $.ajax({
                     method: "DELETE",
@@ -79,10 +122,64 @@
                         $('#deleteModal').modal('hide');
                         console.log(divID)
                         document.getElementById(divID).remove();
-
                     },
                     error: function(data){
                         console.log("error")
+                        document.getElementById('modalTitledel').innerHTML="<span style='color:red'>Permission Denied!</span>"
+                        console.log(data)
+                    },
+                    beforeSend: function(xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                })
+            });
+
+            var postIDupd
+            var postContentupd
+            var postUserupd
+            $(document.body).on("click",".post-upd",function(e){
+                e.preventDefault()
+                var this_=$(this)
+                postIDupd=this_.attr("data-id")
+                console.log(postIDupd)
+                postContentupd=document.getElementById('postContent'+postIDupd).innerHTML
+                postContentupd = postContentupd.replace(/<\/?[^>]+(>|$)/g, "");
+                document.getElementById('modalContentupd').innerHTML=postContentupd
+                var updURL="/post/api/"+postIDdel+"/delete/"
+                $("#updform").attr("href", updURL)
+                document.getElementById('modalTitleupd').innerHTML="Update"
+                $('#updateModal').modal('show');
+            });
+            $('#updform').submit(function(event){
+                event.preventDefault()
+                var this_=$(this)
+                console.log(postIDupd)
+                var divID="post-"+postIDupd
+                var updURL="/post/api/"+postIDupd+"/update/"
+                var formData=this_.serializeArray();
+                var formDataJSON = {};
+                $.map(formData, function(n, i){
+                    formDataJSON[n['name']] = n['value'];
+                });
+                console.log(formDataJSON)
+                formDataJSON['pk']=postIDupd
+                formDataJSON['content']=document.getElementById('modalContentupd').value
+
+                console.log(formDataJSON)
+                $.ajax({
+                    method: "PUT",
+                    url: updURL,
+                    data: formDataJSON,
+                    success: function(data){
+                        console.log("Updated")
+                        $('#updateModal').modal('hide');
+                        console.log(divID)
+                        document.getElementById("postContent"+postIDupd).innerHTML=formDataJSON['content']
+                        updateHashLinks()
+                    },
+                    error: function(data){
+                        console.log("error")
+                        document.getElementById('modalTitleupd').innerHTML="<span style='color:red'>Permission Denied!</span>"
                         console.log(data)
                     },
                     beforeSend: function(xhr, settings) {
@@ -122,42 +219,6 @@
                     }
                 })
             })
-            searchInput.keyup(function(event){
-                searchQuery=$(this).val()
-                clearTimeout(typingTimer)
-                typingTimer=setTimeout(doneSearchTyping,doneInterval)
-            })
-
-            searchInput.keydown(function(event){
-                clearTimeout(typingTimer)
-            })
-
-            function doneSearchTyping(){
-                if(searchQuery){
-                    var url='/post/?q='+searchQuery
-                    document.location.href=url;
-                }
-            }
-
-            var query=getParameterByName('q')
-            var postList=[];
-            var nextPostURL;
-
-            function updateHashLinks(){
-                $(".posts").each(function(data){
-                    var hashTagRegex= /(^|\s)*#([\w\d-]+)/g
-                    var usernameRegex= /(^|\s)*@([\w\d-]+)/g
-                    var currentHtml=$(this).html()
-                    var newText
-                    newText=currentHtml.replace(hashTagRegex,
-                        "$1<a href='/tags/$2/' style='text-decoration:none;'>#$2</a>")
-
-                    newText=newText.replace(usernameRegex,
-                        "$1<a href='/profile/$2/' style='text-decoration:none;'>@$2</a>")
-                    $(this).html(newText)
-
-                })
-            }
 
             function attachPost(postValue,prepend){
                 var postContent=postValue.content;
@@ -176,17 +237,18 @@
                         "\'  style=\"width:25px;float: left;\" class=\"border  rounded-circle border-white\" />"
                 var postFormattedHTML=
                     //"<div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'>"+
-                         "<div class='card posts' id='post-"+postValue.id+"' style='width: 30rem;'>"+
+                         "<div class='card posts' id='post-"+postValue.id+"' style='width: 45rem;'>"+
                               "<div class='card-body'>"+
-                                "<h5 class='card-title'><a href='"+postUser.url+"' style='text-decoration:none;'>"+imageFormattedHTML+postUser.username+"</a>"+
+                                "<h5 class='card-title'><a href='"+postUser.url+"' style='text-decoration:none;' id='postUser"+postValue.id+"'>"+imageFormattedHTML+" "+postUser.username+"</a>"+
                                     "<span style='float: right;'><a data-toggle='dropdown'><img src='{% static 'images/more-24.png' %}'></a>"+
                                     "<div class='dropdown-menu dropdown-menu-right'>"+
-                                    "<small><a class='dropdown-item' href='"+postURL+"edit'>Update</a></small>"+
-                                    "<small><a class='dropdown-item' href='"+postURL+"delete'>Delete</a></small>"+
-                                    "<small><a class='dropdown-item post-del' data-id='"+postValue.id+"'>Delete2</a></small>"+
+                                    //"<small><a class='dropdown-item' href='"+postURL+"edit'>Update</a></small>"+
+                                    "<small><a class='dropdown-item post-upd' data-id='"+postValue.id+"'>Update</a></small>"+
+
+                                    "<small><a class='dropdown-item post-del' data-id='"+postValue.id+"'>Delete</a></small>"+
                                 "</div></span></h5>"+
                                 "<small class='card-subtitle mb-2 text-muted'><a href='"+postURL+"' style='color:black;text-decoration:none;'>"+postTimeSince+"</a></small>"+
-                                "<p class='card-text'>"+postContent+"</p>"+
+                                "<p class='card-text' id='postContent"+postValue.id+"'>"+postContent+"</p>"+
                                 //"<a href='#' class='card-link post-like' >"+is_liked+"("+postValue.likes+")</a>"+
                                 "<button id='post"+postValue.id+"' class='mdc-icon-button material-icons post-like' data-id='"+postValue.id+"'>"+is_liked+"</button>"+
                                 //"<div ></div>"+
@@ -210,6 +272,8 @@
                 }else{
                     $.each(postList,function(key,value){
                         var postKey=key;
+                        //console.log(postKey)
+                        //console.log(value)
                         attachPost(value)
                     })
                 }
@@ -233,13 +297,20 @@
                     },
                     method: "GET",
                     success: function(data){
-                        postList=data.results
-                        if(data.next){
-                            nextPostURL=data.next
+                        if(data.results){
+                            postList=data.results
+                            if(data.next){
+                                nextPostURL=data.next
+                            }else{
+                                $("#load_more_posts").css("display","none")
+                            }
+                            parsePost()
                         }else{
+                            postList=data
+                            attachPost(postList)
                             $("#load_more_posts").css("display","none")
                         }
-                        parsePost()
+                        //console.log(postList)
                         updateHashLinks()
                     },
                     error: function(data){

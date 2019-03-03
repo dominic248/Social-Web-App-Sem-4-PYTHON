@@ -27,7 +27,7 @@ class UserFollowView(View):
         toggle_user=get_object_or_404(User,username__iexact=slug)
         if request.user.is_authenticated:
             is_following=Profile.objects.toggle_follow(request.user,toggle_user)
-        return redirect("user-profile",slug=slug)
+        return redirect("user-profile",slug=self.request.user.username)
 
 # Create your views here.
 

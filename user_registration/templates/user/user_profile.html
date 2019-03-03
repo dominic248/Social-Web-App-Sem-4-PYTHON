@@ -7,25 +7,27 @@ Profile
 
 
 {%block body%}
+{% include "posts/post_modal.html" %}
 {{object.username}}<br>
+{% ifnotequal request.user.username object.username %}
 <p>
     <a href='{{object.profile.get_follow_url}}'>
         {% if following %}Unfollow{% else %}Follow{% endif %}
     </a>
 </p>
-<h4>Following: {{object.profile.get_following.count}}</h4>
-{% for users in object.profile.get_following.all %}
-<a href="/profile/{{users.username}}">{{users.username}}</a><br>
-{% empty %}
-<h6>Not following any users!</h6><br>
-{% endfor %}
-<h4>Followers: {{object.followed_by.all.count}}</h4>
-{% for users in object.followed_by.all %}
-<a href="/profile/{{users.user.username}}">{{users.user.username}}</a><br>
-{% empty %}
-<h6>Not followed by any users!</h6>
-{% endfor %}
-<br>
+{% endifnotequal  %}
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#FollowingModalLong">
+  Following: {{object.profile.get_following.count}}
+</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#FollowersModalLong">
+  Followers: {{object.followed_by.all.count}}
+</button>
+
+{% include "user/users_modal.html" with followingusers=object.profile.get_following.all followersusers=object.followed_by.all %}
+
+<h4>Followers: </h4>
+
 
 <h4>Posts</h4>
     <div id="post-container" data-url="/profile/{{object.username}}/api/">

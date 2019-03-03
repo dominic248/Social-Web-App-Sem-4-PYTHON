@@ -28,6 +28,7 @@ class Post(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="liked")
 
+
     def __str__(self):
         return (str(self.user.username) + " | " + str(self.id) + " | " + str(self.created_on))
 
