@@ -16,19 +16,14 @@ Profile
     </a>
 </p>
 {% endifnotequal  %}
-
+{% include "user/users_modal.html" with followingusers=object.profile.get_following.all followersusers=object.followed_by.all %}
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#FollowingModalLong">
   Following: {{object.profile.get_following.count}}
 </button>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#FollowersModalLong">
   Followers: {{object.followed_by.all.count}}
 </button>
-
-{% include "user/users_modal.html" with followingusers=object.profile.get_following.all followersusers=object.followed_by.all %}
-
-<h4>Followers: </h4>
-
-
+<br><br>
 <h4>Posts</h4>
     <div id="post-container" data-url="/profile/{{object.username}}/api/">
         </div>

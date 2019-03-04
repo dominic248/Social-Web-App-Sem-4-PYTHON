@@ -1,5 +1,5 @@
 from django.urls import path,include
-from .views import home,secret_page,settings,UserDetailView,UserFollowView
+from .views import home,secret_page,settings,UserDetailView,UserFollowView,UserFollowRemoveView
 from allauth.account.views import EmailView as allauth_AccountEmail
 
 
@@ -12,6 +12,7 @@ urlpatterns=[
     path('settings/', settings, name='settings'),
     path('profile/<slug>/', UserDetailView.as_view(), name='user-profile'),
     path('profile/<slug>/follow/', UserFollowView.as_view(), name='user-follow'),
+    path('profile/<slug>/followremove/', UserFollowRemoveView.as_view(), name='user-follow-remove'),
 
 
 ]
