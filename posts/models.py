@@ -2,7 +2,7 @@ import re
 from django.db.models.signals import post_save
 
 from django.db import models
-from django.urls import reverse
+git
 from django.conf import settings
 from .validators import validate_blank_content
 from hashtags.signals import parsed_hashtags

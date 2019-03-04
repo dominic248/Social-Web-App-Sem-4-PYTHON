@@ -23,7 +23,7 @@
             {% else %}
             <img src="{% static 'images/profile.png' %}" alt="{{ user.get_full_name }}" style="width:26px;float: left;" class="border rounded-circle border-white" />
             {% endif %}
-            {{user.username|add:"follow"}}</a>
+            {{user.username}}</a>
                 {% if user.username in followusers %}
                 <a href="{% url 'user-follow' slug=user.username %}" class="btn btn-outline-primary" style="width:90px;float:right;">Following</a>
                 {% else %}
@@ -63,14 +63,14 @@
             {% else %}
             <img src="{% static 'images/profile.png' %}" alt="{{ user.user.get_full_name }}" style="width:26px;float: left;" class="border rounded-circle border-white" />
             {% endif %}
-            {{user.user.username|add:"follow"}}</a>
+            {{user.user.username}}</a>
                 <div style="width:110px;float:right;">
                     {% if user.user.username in followusers %}
                     <a href="{% url 'user-follow' slug=user.user.username %}" class="btn btn-outline-primary" style="width:90px;">Following</a>
                     {% else %}
                     <a href="{% url 'user-follow' slug=user.user.username %}" class="btn btn-primary" style="width:90px;">Follow</a>
                     {% endif %}
-                    <a href="{% url 'user-follow-remove' slug=user.user.username %}" style="width:10px;float:right;"><i class="material-icons text-dark">clear</i></a>
+                    <a href="{% url 'user-follow-remove' slug=user.user.username %}" style="width:10px;float:right;text-decoration:none;">&times;</a>
                 </div>
             </h5>
         </li>
