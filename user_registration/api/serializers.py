@@ -20,6 +20,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
     url=serializers.SerializerMethodField()
+    current_user = serializers.SerializerMethodField('curruser')
 
     class Meta:
         model=User
@@ -31,8 +32,15 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'profile',
             'url',
+            'current_user',
         ]
+
+    # Use this method for the custom field
+    def curruser(self, obj):
+        return self.context['request'].user.id
+
     def get_url(self,obj):
         return reverse_lazy("user-profile",kwargs={"slug":obj.username})
+
 
 

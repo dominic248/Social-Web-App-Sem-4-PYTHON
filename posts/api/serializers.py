@@ -15,7 +15,7 @@ class PostModelSerializer(serializers.ModelSerializer):
             'id',
             'user',
             'content',
-            'created_on',
+            'updated_on',
             'timesince',
             'get_absolute_url',
             'likes',
@@ -35,5 +35,6 @@ class PostModelSerializer(serializers.ModelSerializer):
     def get_likes(self,obj):
         return obj.liked.all().count()
 
+
     def get_timesince(self,obj):
-        return timesince(obj.created_on) + " ago"
+        return timesince(obj.updated_on) + " ago"

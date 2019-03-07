@@ -175,6 +175,7 @@
                         $('#updateModal').modal('hide');
                         console.log(divID)
                         document.getElementById("postContent"+postIDupd).innerHTML=formDataJSON['content']
+                        document.getElementById("postTime"+postIDupd).innerHTML="0 Minutes ago"
                         updateHashLinks()
                     },
                     error: function(data){
@@ -206,7 +207,6 @@
                             //this_.text("Liked")
                             console.log("Liked")
                             document.getElementById(postIDname).innerHTML='favorite'
-
                         }else{
                             console.log("Unliked")
                             //this_.text("Unliked")
@@ -225,6 +225,7 @@
                 var postTimeSince=postValue.timesince;
                 var postUser=postValue.user;
                 var is_liked='favorite_border'
+                var postDropDown
                 if(postValue.did_like){
                     is_liked='favorite'
                 }
@@ -233,31 +234,31 @@
                 if (postUserImage === null || postUserImage === undefined) {
                     postUserImage="{% static 'images/profile.png' %}";
                 }
+                if(postUser.id==postUser.current_user){
+                    postDropDown="<span style='float: right;'><a data-toggle='dropdown'><img src='{% static 'images/more-24.png' %}'></a>"+
+                                        "<div class='dropdown-menu dropdown-menu-right'>"+
+                                        "<small><a class='dropdown-item post-upd' data-id='"+postValue.id+"'>Update</a></small>"+
+                                        "<small><a class='dropdown-item post-del' data-id='"+postValue.id+"'>Delete</a></small>"+
+                                    "</div></span>"
+                }else{
+                    postDropDown=""
+                }
                 var imageFormattedHTML="<img src=\'"+postUserImage+"\' alt=\'"+postUser.first_name+" "+postUser.last_name+
                         "\'  style=\"width:25px;float: left;\" class=\"border  rounded-circle border-white\" />"
                 var postFormattedHTML=
                     //"<div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'>"+
-                         "<div class='card posts' id='post-"+postValue.id+"' style='width: 45rem;'>"+
+                         "<div id='post-"+postValue.id+"'><div class='card posts' style='width: 45rem;'>"+
                               "<div class='card-body'>"+
                                 "<h5 class='card-title'><a href='"+postUser.url+"' style='text-decoration:none;' id='postUser"+postValue.id+"'>"+imageFormattedHTML+" "+postUser.username+"</a>"+
-                                    "<span style='float: right;'><a data-toggle='dropdown'><img src='{% static 'images/more-24.png' %}'></a>"+
-                                    "<div class='dropdown-menu dropdown-menu-right'>"+
-                                    //"<small><a class='dropdown-item' href='"+postURL+"edit'>Update</a></small>"+
-                                    "<small><a class='dropdown-item post-upd' data-id='"+postValue.id+"'>Update</a></small>"+
-
-                                    "<small><a class='dropdown-item post-del' data-id='"+postValue.id+"'>Delete</a></small>"+
-                                "</div></span></h5>"+
-                                "<small class='card-subtitle mb-2 text-muted'><a href='"+postURL+"' style='color:black;text-decoration:none;'>"+postTimeSince+"</a></small>"+
+                                postDropDown+"</h5>"+
+                                "<small class='card-subtitle mb-2 text-muted' ><a href='"+postURL+"' style='color:black;text-decoration:none;' id='postTime"+postValue.id+"'>"+postTimeSince+"</a></small>"+
                                 "<p class='card-text' id='postContent"+postValue.id+"'>"+postContent+"</p>"+
                                 //"<a href='#' class='card-link post-like' >"+is_liked+"("+postValue.likes+")</a>"+
                                 "<button id='post"+postValue.id+"' class='mdc-icon-button material-icons text-danger post-like' data-id='"+postValue.id+"'>"+is_liked+"</button>"+
                                 //"<div ></div>"+
                               "</div>"+
                              // "<button class='mdc-icon-button material-icons post-like' data-id='"+postValue.id+"'>share</button>"+
-
-                         "</div>"+
-                    "<br>"
-
+                             "</div><br></div>"
                 if(prepend==true){
                     postContainer.prepend(postFormattedHTML)
                 }else{
