@@ -57,7 +57,7 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='profile')
     following = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='followed_by', blank=True)
     bio = models.TextField(max_length=500, blank=True)
-    location = models.CharField(max_length=30, blank=True)
+    location = models.CharField(max_length=30, blank=True,null=True)
     birth_date = models.DateField(null=True, blank=True)
     image = models.ImageField(upload_to="profile_pic",null=True,blank=True)
 

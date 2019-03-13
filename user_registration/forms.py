@@ -30,7 +30,7 @@ class CustomSignupForm(SignupForm):
         self.fields['password2'] = forms.CharField(required=True, help_text='Enter the same password as before, for verification.',
                                     label='Confirm Password',
                                     widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
-        self.fields['location'] = forms.CharField(max_length=30, required=True, label='Location',
+        self.fields['location'] = forms.CharField(max_length=30, required=False, label='Location',
                                      widget=forms.TextInput(attrs={'placeholder': 'Location'}))
         self.fields['image'] = forms.ImageField()
 
