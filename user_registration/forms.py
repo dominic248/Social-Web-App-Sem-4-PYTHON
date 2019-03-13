@@ -32,12 +32,12 @@ class CustomSignupForm(SignupForm):
                                     widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
         self.fields['location'] = forms.CharField(max_length=30, required=False, label='Location',
                                      widget=forms.TextInput(attrs={'placeholder': 'Location'}))
-        self.fields['image'] = forms.ImageField()
+        self.fields['image'] = forms.ImageField(required=False)
 
-        self.fields['x'] = forms.FloatField(widget=forms.HiddenInput())
-        self.fields['y'] = forms.FloatField(widget=forms.HiddenInput())
-        self.fields['width'] = forms.FloatField(widget=forms.HiddenInput())
-        self.fields['height'] = forms.FloatField(widget=forms.HiddenInput())
+        self.fields['x'] = forms.FloatField(required=False,widget=forms.HiddenInput())
+        self.fields['y'] = forms.FloatField(required=False,widget=forms.HiddenInput())
+        self.fields['width'] = forms.FloatField(required=False,widget=forms.HiddenInput())
+        self.fields['height'] = forms.FloatField(required=False,widget=forms.HiddenInput())
 
     def save(self, request):
         user = super(CustomSignupForm, self).save(request)
@@ -54,15 +54,15 @@ class CustomSignupForm(SignupForm):
         if user.profile.image:
             print('image present')
 
-        x = self.cleaned_data.get('x')
-        y = self.cleaned_data.get('y')
-        w = self.cleaned_data.get('width')
-        h = self.cleaned_data.get('height')
-        print(x,y,w,h)
-        images = Image.open(user.profile.image)
-        cropped_image = images.crop((x, y, w + x, h + y))
-        resized_image = cropped_image.resize((600, 600), Image.ANTIALIAS)
-        resized_image.save(user.profile.image.path)
+            x = self.cleaned_data.get('x')
+            y = self.cleaned_data.get('y')
+            w = self.cleaned_data.get('width')
+            h = self.cleaned_data.get('height')
+            print(x,y,w,h)
+            images = Image.open(user.profile.image)
+            cropped_image = images.crop((x, y, w + x, h + y))
+            resized_image = cropped_image.resize((600, 600), Image.ANTIALIAS)
+            resized_image.save(user.profile.image.path)
         return user
 
     field_order = ['first_name','last_name','email','username','password1','password2','location','image','x', 'y', 'width', 'height',]
