@@ -32,13 +32,13 @@ class UserProfileManager(models.Manager):
     def toggle_remove_follow(self,user,to_toggle_user):
         user_profile, created = Profile.objects.get_or_create(user=to_toggle_user)
         print(created)
-        if to_toggle_user in user_profile.following.all():
-            user_profile.following.remove(user)
-            added=False
-        else:
-            user_profile.following.add(user)
-            added = True
-        return added
+        # if to_toggle_user in user_profile.following.all():
+        user_profile.following.remove(user)
+            # return True
+        # else:
+        #     user_profile.following.add(user)
+        #     added = True
+        # return added
 
     def is_following(self,user,followed_by_user):
         user_profile, created = Profile.objects.get_or_create(user=user)
