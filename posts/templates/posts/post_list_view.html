@@ -13,22 +13,25 @@ Posts List
     <div class="container">
         {% include "posts/post_modal.html" %}
         {% include "posts/search_posts.html" %}
-        <form class="form" method="POST" action="{{create_url}}" id="post-form">
+        <form class="form" method="POST" action="{{create_url}}" id="post-form" enctype="multipart/form-data">
             {% csrf_token %}
-                <div class="card" style="width:45rem;height:14rem">
+                <div class="card" style="width:45rem;height:20rem">
                   <div class="card-body">
                     {{ createForm.content|as_crispy_field }}
+                    <span id='postChar'></span><br>
+                    {{ createForm.image|as_crispy_field }}
                     <input class="btn btn-primary" type="submit" value="Post">
                   </div>
                 </div>
         </form><br>
 
         <div id="post-container" data-url="/post/api/">
-        </div>
-
         <div>
             <a href="#" id="load_more_posts">Load More Posts</a>
         </div>
+        </div>
+
+        
         <!--{% for object in object_list %}-->
             <!--{{object.content}} |-->
             <!--{{object.user}}<br>-->

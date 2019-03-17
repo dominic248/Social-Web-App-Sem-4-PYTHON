@@ -27,9 +27,13 @@ class PostDetailAPIView(APIView):
     serializer_class = PostModelSerializer
     lookup_field = 'pk'
     queryset = Post.objects.all()
+
+
     def get(self,request,pk):
         post_qs=get_object_or_404(Post,pk=pk)
         serializer= PostModelSerializer(post_qs)
+        serializer.data["user"]["current_user"]=self.request.user.id
+        print()
         return Response(serializer.data)
     def delete(self, request,pk):
         print("PK is",pk)

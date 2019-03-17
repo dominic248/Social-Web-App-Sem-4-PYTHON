@@ -24,6 +24,7 @@ class Post(models.Model):
     objects=PostManager()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField(max_length=500, validators=[validate_blank_content])
+    image=models.ImageField(upload_to="posts",null=True,blank=True,default=None)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="liked")

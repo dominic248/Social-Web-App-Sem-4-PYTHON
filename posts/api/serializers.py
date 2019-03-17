@@ -15,6 +15,7 @@ class PostModelSerializer(serializers.ModelSerializer):
             'id',
             'user',
             'content',
+            'image',
             'updated_on',
             'timesince',
             'get_absolute_url',
@@ -38,3 +39,4 @@ class PostModelSerializer(serializers.ModelSerializer):
 
     def get_timesince(self,obj):
         return timesince(obj.updated_on) + " ago"
+

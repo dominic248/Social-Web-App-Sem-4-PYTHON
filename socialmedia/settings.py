@@ -63,8 +63,6 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 ACCOUNT_FORMS = {
     'signup': 'user_registration.forms.CustomSignupForm',
-
-
 }
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT=100
 
