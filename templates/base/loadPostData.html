@@ -28,16 +28,32 @@
     }
     var csrftoken = getCookie('csrftoken');
 
-    function readURL(input) {
+    function readUpdModalURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
                 $('#viewImageupd').attr('src', e.target.result)
                 $('#viewImageupd').css('display','block');
+                document.getElementById('modalImageupd_label').innerHTML=document.getElementById('modalImageupd').value.replace(/.*(\/|\\)/, '');
             };
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    function readCreateURL(input) {
+        console.log("Get create image")
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#viewImagecre').attr('src', e.target.result)
+                $('#viewImagecre').css('display','block');
+                document.getElementById('id_image_label').innerHTML=document.getElementById('id_image').value.replace(/.*(\/|\\)/, '');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    
 
     function wipeUpd(){
         $('#viewImageupd').css('display','none');
@@ -158,9 +174,12 @@
                 var this_=$(this)
                 postIDupd=this_.attr("data-id")
                 console.log(postIDupd)
+                var postIDhtmlName="postImage"+postIDupd
                 postContentupd=document.getElementById('postContent'+postIDupd).innerHTML
                 postContentupd = postContentupd.replace(/<\/?[^>]+(>|$)/g, "");
                 document.getElementById('modalContentupd').innerHTML=postContentupd
+                document.getElementById('viewImageupd').style.display = "block";
+                document.getElementById("viewImageupd").src=document.getElementById(postIDhtmlName).getAttribute("src")
                 var updURL="/post/api/"+postIDdel+"/delete/"
                 $("#updform").attr("href", updURL)
                 document.getElementById('modalTitleupd').innerHTML="Update"

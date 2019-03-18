@@ -64,7 +64,11 @@
             <textarea class="form-control" id="modalContentupd"></textarea>
             <br>
             <img id="viewImageupd" src="#" style="display: none;"/>
-            <input type="file" name="image" accept="image/*" class="clearablefileinput" id="modalImageupd" onchange="readURL(this);" >
+            {% comment %} <input type="file" name="image" accept="image/*" class="clearablefileinput" id="modalImageupd" onchange="readUpdModalURL(this);" > {% endcomment %}
+            <div class="custom-file">
+              <input type="file" name="image" accept="image/*" class="custom-file-input clearablefileinput" id="modalImageupd" onchange="readUpdModalURL(this);" >
+              <label id="modalImageupd_label" class="custom-file-label" for="modalImageupd">Choose file</label>
+            </div>
           </div>
         </form>
       </div>

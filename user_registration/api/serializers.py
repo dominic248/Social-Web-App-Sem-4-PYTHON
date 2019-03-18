@@ -40,7 +40,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     # Use this method for the custom field
     def curruser(self, obj):
-        return self.context['request'].user.id
+        try:
+            return self.context['request'].user.id
+        except:
+            pass
 
 
     def get_url(self,obj):
