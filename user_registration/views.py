@@ -3,12 +3,60 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView
 from django.contrib.auth import get_user_model
 from django.views import View
 from .models import Profile
+from django.urls import reverse_lazy
+from django.forms.utils import ErrorList
+from django import forms
+
+
 User=get_user_model()
 toggle_user=None
+
+class UserDetailsUpdateView(UpdateView):
+    queryset = User.objects.all()
+    template_name = "user/user_update.html"
+    fields=[
+        "first_name",
+        "last_name",
+    ]
+    slug_field='username'
+    success_url = reverse_lazy("settings")
+    def form_valid(self,form,*args,**kwargs):
+        context = self.get_context_data(*args,**kwargs)
+        if context['user']==self.request.user:
+            return super(UserDetailsUpdateView,self).form_valid(form)
+        else:
+            form._errors[forms.forms.NON_FIELD_ERRORS]=ErrorList(["Not allowed to change data!"])
+            return self.form_invalid(form)
+    def get_context_data(self,*args, **kwargs):
+        context = super(UserDetailsUpdateView, self).get_context_data(*args, **kwargs)
+        return context
+
+class UserProfileDetailsUpdateView(UpdateView):
+    queryset=Profile.objects.all()
+    template_name = "user/user_profile_update.html"
+    fields=[
+        "location",
+        "image",
+    ]
+    success_url = reverse_lazy("settings")
+    def form_valid(self,form,*args,**kwargs):
+        context = self.get_context_data(*args,**kwargs)
+
+        if str(context['profile'])==str(int(self.request.user.pk)+1):
+            return super(UserProfileDetailsUpdateView,self).form_valid(form)
+        else:
+            form._errors[forms.forms.NON_FIELD_ERRORS]=ErrorList(["Not allowed to change data!"])
+            return self.form_invalid(form)
+    def get_context_data(self,*args, **kwargs):
+        context = super(UserProfileDetailsUpdateView, self).get_context_data(*args, **kwargs)
+        print(context)
+        return context
+
+
 class UserDetailView(DetailView):
     queryset = User.objects.all()
     template_name ="user/user_profile.html"

@@ -73,7 +73,7 @@ class Profile(models.Model):
         return reverse_lazy("user-profile",kwargs={"slug":self.user.username})
 
     def __str__(self):
-        return (str(self.user.username)+" ("+str(self.get_following().count())+") | "+str(int(self.pk)-1))
+        return str(int(self.pk))
 
     class Meta:
         verbose_name = 'profile'

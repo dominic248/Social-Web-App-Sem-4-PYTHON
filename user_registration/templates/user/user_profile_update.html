@@ -1,0 +1,15 @@
+{% extends "settings.html" %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Update Profile" %}{% endblock %}
+
+
+{% block content %}
+<form class="form" method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Update Profile" class="btn btn-primary mr-2">
+</form>
+{%endblock%}

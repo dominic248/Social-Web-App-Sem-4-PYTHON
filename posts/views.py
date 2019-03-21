@@ -9,10 +9,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 
-
-# Create your views here.
-
-
 class PostCreateView(FormUserNeededMixin, CreateView):
     template_name = "posts/post_create_view.html"
     form_class = PostModelForm

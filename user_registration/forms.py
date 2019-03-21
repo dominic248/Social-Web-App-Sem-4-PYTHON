@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserChangeForm
 from allauth.account.forms import SignupForm
 from django import forms
 from PIL import Image
 from django.core.files import File
+from .models import Profile
 
 # UserForm,AddEmailForm
 
@@ -67,3 +69,7 @@ class CustomSignupForm(SignupForm):
 
     field_order = ['first_name','last_name','email','username','password1','password2','location','image','x', 'y', 'width', 'height',]
 
+
+
+
+        

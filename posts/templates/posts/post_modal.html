@@ -65,9 +65,14 @@
             <br>
             <img id="viewImageupd" src="#" style="display: none;"/>
             {% comment %} <input type="file" name="image" accept="image/*" class="clearablefileinput" id="modalImageupd" onchange="readUpdModalURL(this);" > {% endcomment %}
-            <div class="custom-file">
-              <input type="file" name="image" accept="image/*" class="custom-file-input clearablefileinput" id="modalImageupd" onchange="readUpdModalURL(this);" >
-              <label id="modalImageupd_label" class="custom-file-label" for="modalImageupd">Choose file</label>
+            <div class="input-group">
+              <div class="custom-file">
+                <input type="file" name="image" accept="image/*" class="custom-file-input clearablefileinput" id="modalImageupd" onchange="readUpdModalURL(this);" >
+                <label id="modalImageupd_label" class="custom-file-label" for="modalImageupd">Choose file</label>
+              </div>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="wipeUpd();">X</button>
+              </div>
             </div>
           </div>
         </form>

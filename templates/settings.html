@@ -8,11 +8,16 @@ Secret
     <h2>Settings</h2>
     <br>
 
-
             <div class="card bg-light" >
                 <div class="row" style="margin-right: 0;margin-left: 0;">
                     <div class="col-3 mr-auto" style="padding-right: 0;padding-left: 0;">
                         <div class="list-group border bg-white" style="min-height:700px; overflow:auto;" >
+                            <a class="list-group-item list-group-item-action
+                                {% if request.resolver_match.url_name == 'upd-user' %}active{%endif%}"
+                                href="{% url 'upd-user' slug=request.user.username %}">General</a>
+                            <a class="list-group-item list-group-item-action
+                                {% if request.resolver_match.url_name == 'upd-profile' %}active{%endif%}"
+                                href="{% url 'upd-profile' pk=request.user.id|add:'1' %}">Profile</a>
                             <a class="list-group-item list-group-item-action
                                 {% if request.resolver_match.url_name == 'account_email' %}active{%endif%}"
                                 href="{% url 'account_email' %}">Account</a>

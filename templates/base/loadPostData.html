@@ -29,6 +29,7 @@
     var csrftoken = getCookie('csrftoken');
 
     function readUpdModalURL(input) {
+        
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
@@ -58,6 +59,12 @@
     function wipeUpd(){
         $('#viewImageupd').css('display','none');
         $("#modalImageupd").val(null);
+        $("#modalImageupd_label").html("Choose file");
+    }
+    function wipeCre(){
+        $('#viewImagecre').css('display','none');
+        $("#id_image").val(null);
+        $("#id_image_label").html("Choose file");
     }
 
     function loadPostData(formID){
@@ -178,8 +185,13 @@
                 postContentupd=document.getElementById('postContent'+postIDupd).innerHTML
                 postContentupd = postContentupd.replace(/<\/?[^>]+(>|$)/g, "");
                 document.getElementById('modalContentupd').innerHTML=postContentupd
-                document.getElementById('viewImageupd').style.display = "block";
-                document.getElementById("viewImageupd").src=document.getElementById(postIDhtmlName).getAttribute("src")
+                var element = document.getElementById(postIDhtmlName)
+                if (element === undefined || element===null){
+                    document.getElementById('viewImageupd').style.display = "none";
+                }else{
+                    document.getElementById('viewImageupd').style.display = "block";
+                    document.getElementById("viewImageupd").src=document.getElementById(postIDhtmlName).getAttribute("src")
+                }
                 var updURL="/post/api/"+postIDdel+"/delete/"
                 $("#updform").attr("href", updURL)
                 document.getElementById('modalTitleupd').innerHTML="Update"
@@ -213,8 +225,7 @@
                         console.log(divID)
                         document.getElementById('post-container').innerHTML=""
                         fetchPost()
-                        $('#viewImageupd').css('display','none');
-                        $("#modalImageupd").val(null);
+                        wipeUpd()
                     },
                     error: function(data){
                         console.log("error")
@@ -412,6 +423,7 @@
                         this_.find("input[type=text],textarea").val("")
                         attachPost(data,true)
                         updateHashLinks()
+                        wipeCre()
                         //fetchPost()
                     },
                     error: function(data){
