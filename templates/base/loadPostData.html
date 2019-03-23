@@ -271,6 +271,8 @@
                 })
             })
 
+           
+
             function attachPost(postValue,prepend){
                 var postContent=postValue.content;
                 var postTimeSince=postValue.timesince;
@@ -388,17 +390,27 @@
             })
 
             var postStart=500
-            var postCurrent=0
+            var postCurrent=postStart
             $('#postChar').html("500")
             $('#post-form textarea').keydown(function(event){
-                var postValue=$(this).val()
-                postCurrent=postStart-postValue.length
-                $('#postChar').text(postCurrent)
-                if (event.keyCode != 8 && event.keyCode != 46 && postCurrent === 0) {
+                var postValue=$(this).val() 
+                if (event.keyCode != 8 && event.keyCode != 46 && postCurrent > 0){
+                    len=postValue.length+1
+                    postCurrent=postStart-len
+                    console.log(len)
+                    console.log(postCurrent)
+                    $('#postChar').text(postCurrent)
+                } else if (event.keyCode != 8 && event.keyCode != 46 && postCurrent === 0) {
                     event.preventDefault();
                 } else if (event.keyCode != 8 && event.keyCode != 46 && postCurrent < 0) {
                     event.preventDefault();
                     $(this).val(postValue.substring(1,postStart))
+                }else{
+                    len=postValue.length-1
+                    postCurrent=postStart-len
+                    console.log(len)
+                    console.log(postCurrent)
+                    $('#postChar').text(postCurrent)
                 }
             })           
             $('#post-form').submit(function(event){

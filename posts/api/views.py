@@ -27,8 +27,6 @@ class PostDetailAPIView(APIView):
     serializer_class = PostModelSerializer
     lookup_field = 'pk'
     queryset = Post.objects.all()
-
-
     def get(self,request,pk):
         post_qs=get_object_or_404(Post,pk=pk)
         serializer= PostModelSerializer(post_qs)
@@ -44,19 +42,16 @@ class PostDetailAPIView(APIView):
 class PostCreateAPIView(CreateAPIView):
     serializer_class = PostModelSerializer
     permission_classes = [permissions.IsAuthenticated]
-
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
 class PostListAPIView(ListAPIView):
     serializer_class = PostModelSerializer
     pagination_class = StandardResultsPagination
-
     def get_serializer_context(self,*args,**kwargs):
         context=super(PostListAPIView,self).get_serializer_context(*args,**kwargs)
         context['request']=self.request
         return context
-
     def get_queryset(self, *args, **kwargs):
         im_following=self.request.user.profile.get_following()
         qs1 = Post.objects.filter(user__in=im_following)

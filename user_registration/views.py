@@ -10,51 +10,38 @@ from .models import Profile
 from django.urls import reverse_lazy
 from django.forms.utils import ErrorList
 from django import forms
+from django.core.exceptions import PermissionDenied
+from .forms import UpdateProfileForm,UpdateUserForm
 
 
 User=get_user_model()
 toggle_user=None
 
 class UserDetailsUpdateView(UpdateView):
-    queryset = User.objects.all()
     template_name = "user/user_update.html"
-    fields=[
-        "first_name",
-        "last_name",
-    ]
+    form_class=UpdateUserForm
+    model=User
     slug_field='username'
-    success_url = reverse_lazy("settings")
-    def form_valid(self,form,*args,**kwargs):
-        context = self.get_context_data(*args,**kwargs)
-        if context['user']==self.request.user:
-            return super(UserDetailsUpdateView,self).form_valid(form)
-        else:
-            form._errors[forms.forms.NON_FIELD_ERRORS]=ErrorList(["Not allowed to change data!"])
-            return self.form_invalid(form)
     def get_context_data(self,*args, **kwargs):
         context = super(UserDetailsUpdateView, self).get_context_data(*args, **kwargs)
+        if context['user']!=self.request.user:
+            raise PermissionDenied
         return context
+    def get_success_url(self,*args, **kwargs):
+        return reverse_lazy("upd-user", kwargs={'slug': self.request.user.username})
 
 class UserProfileDetailsUpdateView(UpdateView):
-    queryset=Profile.objects.all()
     template_name = "user/user_profile_update.html"
-    fields=[
-        "location",
-        "image",
-    ]
-    success_url = reverse_lazy("settings")
-    def form_valid(self,form,*args,**kwargs):
-        context = self.get_context_data(*args,**kwargs)
-
-        if str(context['profile'])==str(int(self.request.user.pk)+1):
-            return super(UserProfileDetailsUpdateView,self).form_valid(form)
-        else:
-            form._errors[forms.forms.NON_FIELD_ERRORS]=ErrorList(["Not allowed to change data!"])
-            return self.form_invalid(form)
+    form_class=UpdateProfileForm
+    model=Profile
     def get_context_data(self,*args, **kwargs):
         context = super(UserProfileDetailsUpdateView, self).get_context_data(*args, **kwargs)
         print(context)
+        if str(context['profile']) != str(int(self.request.user.pk)):
+            raise PermissionDenied
         return context
+    def get_success_url(self,*args, **kwargs):
+        return reverse_lazy("upd-profile", kwargs={'pk': self.request.user.profile.user.id}) #context['profile']
 
 
 class UserDetailView(DetailView):
@@ -105,8 +92,7 @@ def secret_page(request):
 
 @login_required(login_url='account_login')
 def settings(request):
-    return HttpResponseRedirect(reverse("account_email"))
-
+    return HttpResponseRedirect(reverse("upd-user", kwargs={'slug': request.user.username}))
 
 
 

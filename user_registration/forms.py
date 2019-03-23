@@ -18,7 +18,7 @@ class CustomSignupForm(SignupForm):
                               '<li>Your password can\'t be entirely numeric.</li>' \
                               '</ul>'
         super(CustomSignupForm, self).__init__(*args, **kwargs)
-        self.fields['first_name'] = forms.CharField(max_length=30, required=True, label='First Name',
+        self.fields['first_name'] = forms.CharField(max_length=30, required=True, label='First name',
                                      widget=forms.TextInput(attrs={'placeholder': 'First name'}))
         self.fields['last_name'] = forms.CharField(max_length=30, required=True, label='Last name',
                                     widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
@@ -55,7 +55,6 @@ class CustomSignupForm(SignupForm):
         user.save()
         if user.profile.image:
             print('image present')
-
             x = self.cleaned_data.get('x')
             y = self.cleaned_data.get('y')
             w = self.cleaned_data.get('width')
@@ -69,7 +68,46 @@ class CustomSignupForm(SignupForm):
 
     field_order = ['first_name','last_name','email','username','password1','password2','location','image','x', 'y', 'width', 'height',]
 
+class UpdateUserForm(forms.ModelForm):
+    first_name=forms.CharField(max_length=30, required=False, label='First name',
+                                     widget=forms.TextInput(attrs={'placeholder': 'First name'}))
+    last_name=forms.CharField(max_length=30, required=False, label='Last name',
+                                     widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
+    class Meta:
+        model=User
+        fields=['first_name','last_name',]
+   
+class UpdateProfileForm(forms.ModelForm):
+    x = forms.FloatField(required=False,widget=forms.HiddenInput())
+    y = forms.FloatField(required=False,widget=forms.HiddenInput())
+    width = forms.FloatField(required=False,widget=forms.HiddenInput())
+    height = forms.FloatField(required=False,widget=forms.HiddenInput())
+    location=forms.CharField(max_length=30, required=False, label='Location',
+                                     widget=forms.TextInput(attrs={'placeholder': 'Location'}))
+    image=forms.ImageField(required=False)
+    class Meta:
+        model=Profile
+        fields=['location','image',]
 
-
-
+    def save(self):
+        user = super(UpdateProfileForm, self).save() 
+        user.location = self.cleaned_data.get('location')
+        print("locations is",user.location)
+        if not user.location:
+            user.location=""
+        user.image = self.cleaned_data.get('image')
+        print(user.image)
+        user.save()
+        x = self.cleaned_data.get('x')
+        y = self.cleaned_data.get('y')
+        w = self.cleaned_data.get('width')
+        h = self.cleaned_data.get('height')
+        if x or y or w or h:
+            print('image present')
+            image = Image.open(user.image)
+            cropped_image = image.crop((x, y, w+x, h+y))
+            resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+            resized_image.save(user.image.path)
+            
+        return user
         

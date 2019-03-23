@@ -27,7 +27,7 @@ urlpatterns = [
     path('tags/<hashtag>/', HashTagView.as_view(),name='post-hashtags'),
     path('api-auth/', include('rest_framework.urls')),
     path('post/api/', include('posts.api.urls',namespace='post-api')),
-    path('profile/<slug>/api/', include('user_registration.api.urls',namespace='user-api')),
+    path('profile/api/', include('user_registration.api.urls',namespace='user-api')),
     path('tags/<hashtag>/api/', include('hashtags.api.urls',namespace='hashtag-api'))
 ]
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
