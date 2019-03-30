@@ -1,5 +1,218 @@
 {% load static %}
 <script>
+var followingID=$('.user-following-btn')
+var followersID=$('.user-followers-btn')
+
+    $(document).ready(function() {
+        var followingID=$('.user-following-btn')
+        var followersID=$('.user-followers-btn')
+
+        var this1=$('.user-follow')
+        var this2=$('.user-following-btn')
+        var username=this1.attr("data-id")
+        var logusername=this2.attr("data-id")
+        if(typeof username==='undefined'){
+            username=logusername
+        }
+        var usernameID="follow-"+username
+        var usernameIDlogfollowing="following-count-"+logusername
+        var usernameIDlogfollowers="followers-count-"+logusername
+        console.log(username,usernameID,usernameIDlogfollowing,usernameIDlogfollowers)
+
+    });
+
+    $(document.body).on("click",".user-follower",function(e){
+        e.preventDefault()
+        var this1=$(this)
+        var this2=$('.user-followers-btn')
+        var this3=$('.user-follow')
+        var username=this1.attr("data-id")
+        var logusername=this2.attr("data-id")
+        var checkusername=this3.attr("data-id")
+        var usernameID="follower-"+username
+        var followinglist="following-list-"+username
+        var followinglistapp=$("#following-list")
+        var usernameIDlogfollowing="following-count-"+logusername
+        var usernameIDlogfollowers="followers-count-"+logusername
+        console.log(username,usernameID)
+        var followURL="/profile/api/"+username+"/follow/"
+  
+        $.ajax({
+            method: "GET",
+            url: followURL,
+            success: function(data){
+                if(typeof checkusername==='undefined'){
+                    var UserImage
+                    if(data.profile.image=== null || data.profile.image === undefined){
+                        UserImageURL="{% static 'images/profile.png' %}";
+                    }else{
+                        UserImageURL=data.profile.image
+                    }
+                    var imageFormattedHTML="<img src=\'"+UserImageURL+"\' alt=\'"+data.first_name+" "+data.last_name+
+                    "\'  style=\"width:26px;float: left;\" class=\"border  rounded-circle border-white\" />"
+                    var html="<li class='list-group-item' id='following-list-"+data.username+"'><h5>"+
+                    "<a href='"+data.url+"' style='text-decoration:none;'>"+imageFormattedHTML+data.username+"</a>"+
+                    "<a href='"+data.url+"follow/' class='btn btn-outline-primary user-following' id='following-"+data.username+"' data-id='"+data.username+"' style='width:90px;float:right;'>Following</a>"+
+                    "</h5></li>" 
+                    
+                    if(data.following){
+                        console.log("Following - follower")
+                        followinglistapp.append(html)
+                        document.getElementById(usernameIDlogfollowing).innerHTML="Following: "+data.count         
+                    }else{
+                        console.log("Not Following - follower")
+                        document.getElementById(followinglist).remove();
+                        document.getElementById(usernameIDlogfollowing).innerHTML="Following: "+data.count
+                    }
+                    if(data.count===0){
+                        html="<h6 id='notfollow'>Not following any users!</h6>"
+                        followinglistapp.append(html)
+                        console.log("Not following any users!")
+                    }else{
+                        document.getElementById('notfollow').remove();
+                    }
+                }
+            },
+            error: function(data){
+                console.log("error")
+                console.log(data)
+            }
+        })
+    })
+
+    $(document.body).on("click",".user-following",function(e){
+        e.preventDefault()
+        var this1=$(this)
+        var this2=$('.user-following-btn')
+        var this3=$('.user-follow')
+        var username=this1.attr("data-id")
+        var logusername=this2.attr("data-id")
+        var checkusername=this3.attr("data-id")
+        var usernameID="following-"+username
+        var followinglist="following-list-"+username
+        var followinglistapp=$("#following-list")
+        var usernameIDlogfollowing="following-count-"+logusername
+        var usernameIDlogfollowers="followers-count-"+logusername
+        console.log(username,usernameID)
+        var followURL="/profile/api/"+username+"/follow/"
+        
+        $.ajax({
+            method: "GET",
+            url: followURL,
+            success: function(data){
+                if(typeof checkusername==='undefined'){
+                    var UserImage
+                    if(data.profile.image=== null || data.profile.image === undefined){
+                        UserImageURL="{% static 'images/profile.png' %}";
+                    }else{
+                        UserImageURL=data.profile.image
+                    }
+                    var imageFormattedHTML="<img src=\'"+UserImageURL+"\' alt=\'"+data.first_name+" "+data.last_name+
+                    "\'  style=\"width:26px;float: left;\" class=\"border  rounded-circle border-white\" />"
+                    var html="<li class='list-group-item' id='following-list-"+data.username+"'><h5>"+
+                    "<a href='"+data.url+"' style='text-decoration:none;'>"+imageFormattedHTML+data.username+"</a>"+
+                    "<a href='"+data.url+"follow/' class='btn btn-outline-primary user-following' id='following-"+data.username+"' data-id='"+data.username+"' style='width:90px;float:right;'>Follows</a>"+
+                    "</h5></li>" 
+                    
+                    if(data.following){
+                        console.log("Following - following")
+                        followinglistapp.append(html)
+                        document.getElementById(usernameIDlogfollowing).innerHTML="Following: "+data.count 
+                    }else{
+                        console.log("Not Following - following")
+                        document.getElementById(followinglist).remove();
+                        document.getElementById(usernameIDlogfollowing).innerHTML="Following: "+data.count 
+                    }
+                    if(data.count===0){
+                        html="<h6 id='notfollow'>Not following any users!</h6>"
+                        followinglistapp.append(html)
+                        console.log("Not following any users!")
+                    }else if(document.getElementById('notfollow') !=null){
+                        document.getElementById('notfollow').remove();
+                    }
+                }
+            },
+            error: function(data){
+                console.log("error")
+                console.log(data)
+            }
+        })
+    })
+    
+    $(document.body).on("click",".user-followremove",function(e){
+        e.preventDefault()
+        var this1=$(this)
+        var this2=$('.user-followers-btn')
+        var this3=$('.user-follow')
+        var username=this1.attr("data-id")
+        var logusername=this2.attr("data-id")
+        var checkusername=this3.attr("data-id")
+        var usernameID="follower-"+username
+        var followerlist="follower-list-"+username
+        var followerlistapp=$("#follower-list")
+        var usernameIDlogfollowing="following-count-"+logusername
+        var usernameIDlogfollowers="followers-count-"+logusername
+        console.log(username,usernameID,followerlist)
+        var followURL="/profile/api/"+username+"/followremove/"
+  
+        $.ajax({
+            method: "GET",
+            url: followURL,
+            success: function(data){
+                if(typeof checkusername==='undefined'){                    
+                    if(data.following===null){
+                        console.log("Remove - follower")
+                        document.getElementById(followerlist).remove();
+                        document.getElementById(usernameIDlogfollowers).innerHTML="Followers: "+data.count         
+                    }
+                    if(data.count===0){
+                        var html="<h6 id='notfollow'>Not followed by any users!</h6>"
+                        followerlistapp.append(html)
+                        console.log("Not followed by any users!")
+                    }else if(document.getElementById('notfollow') !=null){
+                        document.getElementById('notfollow').remove();
+                    }
+                }
+            },
+            error: function(data){
+                console.log("error")
+                console.log(data)
+            }
+        })
+    })
+
+
+
+    $(document.body).on("click",".user-follow",function(e){
+        e.preventDefault()
+        var this_=$(this)
+        var username=this_.attr("data-id")
+        var usernameID="follow-"+username
+        console.log(usernameID)
+        var followURL="/profile/api/"+username+"/follow/"
+        
+        $.ajax({
+            method: "GET",
+            url: followURL,
+            success: function(data){
+                if(data.following){
+                    console.log("Following - follow")
+                    document.getElementById(usernameID).innerHTML='Unfollow'
+                }else{
+                    console.log("Not Following - follow")
+                    document.getElementById(usernameID).innerHTML='Follow' 
+                }
+            },
+            error: function(data){
+                console.log("error")
+                console.log(data)
+            }
+        })
+    })
+
+    
+
+
 
     function getParameterByName(name, url) {
         if (!url) url = window.location.href;
@@ -447,12 +660,3 @@
             })
         }
 </script>
-<!--"<div class=\'posts\'><h5>"+"<a href='"+postUser.url+"'>"+-->
-                        <!--imageFormattedHTML+postUser.username+"</a></h5>"+-->
-                        <!--postContent+"<br>"+-->
-                        <!--postTimeSince+"<br>"+-->
-                        <!--"<a href='#' class='post-like' data-id='"+postValue.id+"'>"+is_liked+"("+postValue.likes+")</a> | "+-->
-                        <!--"<a href='"+postURL+"'>View</a> | "+-->
-                        <!--"<a href='"+postURL+"edit'>Update</a> | "+-->
-                        <!--"<a href='"+postURL+"delete'>Delete</a>"+-->
-                        <!--"</div><hr>"-->

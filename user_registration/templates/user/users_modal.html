@@ -10,30 +10,26 @@
         </button>
       </div>
       <div class="modal-body">
-          <ul class="list-group">
-        {% for user in followingusers %}
-        <li class="list-group-item">
-            <h5>
-            <a href="/profile/{{user.username}}" style='text-decoration:none;'>
-            {% if user.profile.image %}
-            <img src="{{ user.profile.image.url }}" alt="{{ user.get_full_name }}" style="width:26px;float: left;" class="border rounded-circle border-white" />
-            {% elif user.socialaccount_set.all.0.get_avatar_url %}
-            <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ user.get_full_name }}" style="width:26px;float: left;" class="border rounded-circle border-white" />
-            <!--0 indicates the site used to sign up first-->
-            {% else %}
-            <img src="{% static 'images/profile.png' %}" alt="{{ user.get_full_name }}" style="width:26px;float: left;" class="border rounded-circle border-white" />
-            {% endif %}
-            {{user.username}}</a>
-                {% if user.username in followusers %}
-                <a href="{% url 'user-follow' slug=user.username %}" class="btn btn-outline-primary" style="width:90px;float:right;">Following</a>
+          <ul class="list-group" id='following-list'>
+            {% for user in followingusers %}
+            <li class="list-group-item" id='following-list-{{user.username}}'>
+                <h5>
+                <a href="/profile/{{user.username}}" style='text-decoration:none;'>
+                {% if user.profile.image %}
+                <img src="{{ user.profile.image.url }}" alt="{{ user.get_full_name }}" id="following-image-{{user.username}}" style="width:26px;float: left;" class="border rounded-circle border-white" />
+                {% elif user.socialaccount_set.all.0.get_avatar_url %}
+                <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ user.get_full_name }}" id="following-image-{{user.username}}" style="width:26px;float: left;" class="border rounded-circle border-white" />
                 {% else %}
-                <a href="{% url 'user-follow' slug=user.username %}" class="btn btn-primary btn-block" style="width:90px;float:right;">Follow</a>
+                <img src="{% static 'images/profile.png' %}" alt="{{ user.get_full_name }}" id="following-image-{{user.username}}" style="width:26px;float: left;" class="border rounded-circle border-white" />
                 {% endif %}
-            </h5>
-        </li>
-        {% empty %}
-        <h6>Not following any users!</h6><br>
-        {% endfor %}
+                {{user.username}}</a> 
+                <a href="{% url 'user-follow' slug=user.username %}" class="btn btn-outline-primary user-following" id='following-{{user.username}}' data-id='{{user.username}}' style="width:90px;float:right;">Follows</a>
+                    
+                </h5>
+            </li>
+            {% empty %}
+            <h6 id='notfollow'>Not following any users!</h6>
+            {% endfor %}
           </ul>
       </div>
     </div>
@@ -50,33 +46,33 @@
         </button>
       </div>
       <div class="modal-body">
-          <ul class="list-group">
-        {% for user in followersusers %}
-        <li class="list-group-item">
-            <h5>
-            <a href="/profile/{{user.user.username}}" style='text-decoration:none;'>
-            {% if user.user.profile.image %}
-            <img src="{{ user.user.profile.image.url }}" alt="{{ user.user.get_full_name }}" style="width:26px;float: left;" class="border rounded-circle border-white" />
-            {% elif user.user.socialaccount_set.all.0.get_avatar_url %}
-            <img src="{{ user.user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ user.user.get_full_name }}" style="width:26px;float: left;" class="border rounded-circle border-white" />
-            <!--0 indicates the site used to sign up first-->
-            {% else %}
-            <img src="{% static 'images/profile.png' %}" alt="{{ user.user.get_full_name }}" style="width:26px;float: left;" class="border rounded-circle border-white" />
-            {% endif %}
-            {{user.user.username}}</a>
-                <div style="width:110px;float:right;">
-                    {% if user.user.username in followusers %}
-                    <a href="{% url 'user-follow' slug=user.user.username %}" class="btn btn-outline-primary" style="width:90px;">Following</a>
-                    {% else %}
-                    <a href="{% url 'user-follow' slug=user.user.username %}" class="btn btn-primary" style="width:90px;">Follow</a>
-                    {% endif %}
-                    <a href="{% url 'user-follow-remove' slug=user.user.username %}" style="width:10px;float:right;text-decoration:none;">&times;</a>
-                </div>
-            </h5>
-        </li>
-        {% empty %}
-        <h6>Not followed by any users!</h6><br>
-        {% endfor %}
+          <ul class="list-group" id='follower-list'>
+            {% for user in followersusers %}
+            <li class="list-group-item" id='follower-list-{{user.user.username}}' data-id='{{user.user.username}}'>
+                <h5>
+                <a href="/profile/{{user.user.username}}" style='text-decoration:none;'>
+                {% if user.user.profile.image %}
+                <img src="{{ user.user.profile.image.url }}" alt="{{ user.user.get_full_name }}" style="width:26px;float: left;" class="border rounded-circle border-white" />
+                {% elif user.user.socialaccount_set.all.0.get_avatar_url %}
+                <img src="{{ user.user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ user.user.get_full_name }}" style="width:26px;float: left;" class="border rounded-circle border-white" />
+                <!--0 indicates the site used to sign up first-->
+                {% else %}
+                <img src="{% static 'images/profile.png' %}" alt="{{ user.user.get_full_name }}" style="width:26px;float: left;" class="border rounded-circle border-white" />
+                {% endif %}
+                {{user.user.username}}</a>
+                    <div style="width:110px;float:right;">
+                        {% if user.user.username in followusers %}
+                        <a href="{% url 'user-follow' slug=user.user.username %}" class="btn btn-outline-primary user-follower" data-id='{{user.user.username}}' id='follower-{{user.user.username}}' style="width:90px;">Following</a>
+                        {% else %}
+                        <a href="{% url 'user-follow' slug=user.user.username %}" class="btn btn-primary user-follower" data-id='{{user.user.username}}' id='follower-{{user.user.username}}' style="width:90px;">Follow</a>
+                        {% endif %}
+                        <a href="{% url 'user-follow-remove' slug=user.user.username %}" class="user-followremove" data-id='{{user.user.username}}' id='follower-{{user.user.username}}' style="width:10px;float:right;text-decoration:none;">&times;</a>
+                    </div>
+                </h5>
+            </li>
+            {% empty %}
+            <h6>Not followed by any users!</h6><br>
+            {% endfor %}
           </ul>
       </div>
     </div>

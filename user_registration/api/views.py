@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from ..models import Profile
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
+from .serializers import UserSerializer
 
 class UserPostListAPIView(ListAPIView):
     serializer_class = PostModelSerializer
@@ -26,14 +27,22 @@ class UserPostListAPIView(ListAPIView):
         return qs
 
 class FollowUnfollowAPIView(APIView):
+    serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'username'
+    queryset = User.objects.all()
     def get(self,request,slug,format=None):
         message="ERROR"
         toggle_user=get_object_or_404(User,username__iexact=slug)
         if request.user.is_authenticated:
             print("Hey",request.user,toggle_user)
             is_following=Profile.objects.toggle_follow(request.user,toggle_user)
-            return Response({'following':is_following})
+            user_qs=get_object_or_404(User,username=toggle_user)  
+            serializer= UserSerializer(user_qs)
+            new_serializer_data = dict(serializer.data)
+            new_serializer_data.update({'following': is_following})
+            new_serializer_data.update({'count':request.user.profile.following.all().count()})
+            return Response(new_serializer_data)
         return Response({"message":message},status=400)
 
 class FollowRemoveAPIView(APIView):
@@ -44,12 +53,11 @@ class FollowRemoveAPIView(APIView):
         if request.user.is_authenticated:
             print("Hey",request.user,toggle_user)
             is_following=Profile.objects.toggle_remove_follow(request.user,toggle_user)
-            return Response({'following':is_following})
-        return Response({'message':message},status=400)
+            user_qs=get_object_or_404(User,username=toggle_user)  
+            serializer= UserSerializer(user_qs)
+            new_serializer_data = dict(serializer.data)
+            new_serializer_data.update({'following': is_following})
+            new_serializer_data.update({'count':request.user.followed_by.all().count()})
+            return Response(new_serializer_data)
+        return Response({"message":message},status=400)
 
-        print(*args,**kwargs)
-        toggle_user=get_object_or_404(User,username__iexact=slug)
-        if request.user.is_authenticated:
-            print("Hey",request.user,toggle_user)
-            is_following=Profile.objects.toggle_remove_follow(request.user,toggle_user)
-        return redirect("user-profile",slug=self.request.user.username)

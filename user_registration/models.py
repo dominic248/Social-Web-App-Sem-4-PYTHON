@@ -51,6 +51,7 @@ class UserProfileManager(models.Manager):
                 return True
                 break
         return False
+ 
 
 
 class Profile(models.Model):
