@@ -6,6 +6,7 @@ from ..models import Post
 from .serializers import PostModelSerializer
 from django.db.models import Q
 from .pagination import StandardResultsPagination
+from user_registration.api.serializers import UserSerializer
 from django.shortcuts import get_object_or_404
 
 import json
@@ -13,12 +14,27 @@ from django.core.exceptions import PermissionDenied
 
 class LikeAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PostModelSerializer
+    lookup_field = 'pk'
     def get(self,request,pk,format=None):
         post_qs=Post.objects.filter(pk=pk)
         message="Not allowed"
         if request.user.is_authenticated:
             is_liked=Post.objects.like_toggle(request.user,post_qs.first())
-            return Response({'liked':is_liked})
+            serializer= PostModelSerializer(post_qs.first())
+            new_serializer_data = dict(serializer.data)
+            new_serializer_data.update({'liked':is_liked})
+            print(new_serializer_data)
+            return Response(new_serializer_data)
+        # if request.user.is_authenticated:
+        #     post_qs=Post.objects.filter(pk=pk)
+        #     message="Not allowed"
+        #     is_liked=Post.objects.like_toggle(request.user,post_qs.first())
+        #     serializer= PostModelSerializer(post_qs.first())
+        #     new_serializer_data = dict(serializer.data)
+        #     new_serializer_data.update({'liked':is_liked})
+        #     print(new_serializer_data)
+        #     return Response(new_serializer_data)
         return Response({"message":message},status=400)
 
 class PostDetailAPIView(APIView):
@@ -30,14 +46,22 @@ class PostDetailAPIView(APIView):
     def get(self,request,pk):
         post_qs=get_object_or_404(Post,pk=pk)
         serializer= PostModelSerializer(post_qs)
-        serializer.data["user"]["current_user"]=self.request.user.id
-        print()
-        return Response(serializer.data)
+        serialized_data = serializer.data
+        serialized_data["user"]["current_user"]=self.request.user.id
+        post=Post.objects.all()[0]
+        if self.request.user in post.liked.all():
+            is_liked=True
+        else:
+            is_liked=False
+        serialized_data["did_like"]=is_liked
+        print(serialized_data)
+        return Response(serialized_data)
     def delete(self, request,pk):
         print("PK is",pk)
         post_qs=get_object_or_404(Post,pk=pk)
         post_qs.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class PostCreateAPIView(CreateAPIView):
     serializer_class = PostModelSerializer

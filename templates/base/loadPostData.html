@@ -459,7 +459,8 @@ var followersID=$('.user-followers-btn')
                 var this_=$(this)
                 var postID=this_.attr("data-id")
                 var postIDname="post"+postID
-                console.log(postIDname)
+                var postLikeCount="post-likecount-"+postID
+                console.log(postIDname,postLikeCount)
                 var likedURL="/post/api/"+postID+"/like/"
                 //this_.text("Liked")
                 document.getElementById(postIDname).innerHTML='favorite'
@@ -471,10 +472,12 @@ var followersID=$('.user-followers-btn')
                             //this_.text("Liked")
                             console.log("Liked")
                             document.getElementById(postIDname).innerHTML='favorite'
+                            document.getElementById(postLikeCount).innerHTML=data.likes
                         }else{
                             console.log("Unliked")
                             //this_.text("Unliked")
                             document.getElementById(postIDname).innerHTML='favorite_border'
+                            document.getElementById(postLikeCount).innerHTML=data.likes
                         }
                     },
                     error: function(data){
@@ -527,6 +530,7 @@ var followersID=$('.user-followers-btn')
                                 postImage+
                                 //"<a href='#' class='card-link post-like' >"+is_liked+"("+postValue.likes+")</a>"+
                                 "<button id='post"+postValue.id+"' class='mdc-icon-button material-icons text-danger post-like' data-id='"+postValue.id+"'>"+is_liked+"</button>"+
+                                "<span id='post-likecount-"+postValue.id+"'>"+postValue.likes+"</span>"+
                                 //"<div ></div>"+
                               "</div>"+
                              // "<button class='mdc-icon-button material-icons post-like' data-id='"+postValue.id+"'>share</button>"+
