@@ -11,39 +11,41 @@ Posts List
 
 
 <div class="container">
-    {% include "posts/post_modal.html" %}
-    {% include "posts/search_posts.html" %}
-    <form class="form" method="POST" action="{{create_url}}" id="post-form" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="card" style="width:45rem;">
-            <div class="card-body">
-                {{ createForm.content|as_crispy_field }}
-                <span id='postChar'></span><br><img id="viewImagecre" src="#" style="display: none;"/>
-                <div class="input-group">
-                    <div class="custom-file">
-                        <input type="file" name="image" accept="image/*" class="custom-file-input clearablefileinput" id="id_image" onchange="readCreateURL(this);" >
-                        <label id="id_image_label" class="custom-file-label" for="id_image">Choose file</label>
+
+        {% include "posts/post_modal.html" %}
+        {% include "posts/search_posts.html" %}
+        <form class="form" method="POST" action="{{create_url}}" id="post-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card" class="col-12">
+                <div class="card-body">
+                    {{ createForm.content|as_crispy_field }}
+                    <span id='postChar'></span><br><img id="viewImagecre" src="#" style="display: none;"/>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" name="image" accept="image/*" class="custom-file-input clearablefileinput" id="id_image" onchange="readCreateURL(this);" >
+                            <label id="id_image_label" class="custom-file-label" for="id_image">Choose file</label>
+                        </div>
+                        
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" onclick="wipeCre();">X</button>
+                        </div>
                     </div>
-                    
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" onclick="wipeCre();">X</button>
+                    <div>      
+                        {% comment %} <input type="file" name="image" accept="image/*" class="fileinput fileUpload" required="" id="id_image"> {% endcomment %}
+                        <br><input class="btn btn-primary" type="submit" value="Post">
                     </div>
-                </div>
-                <div>      
-                    {% comment %} <input type="file" name="image" accept="image/*" class="fileinput fileUpload" required="" id="id_image"> {% endcomment %}
-                    <br><input class="btn btn-primary" type="submit" value="Post">
                 </div>
             </div>
-        </div>
-    </form><br>
-    <div>
-        <div id="post-container" data-url="/post/api/">
-            
-        </div>
+        </form><br>
         <div>
-            <a href="#" id="load_more_posts">Load More Posts</a>
+            <div id="post-container" class="row" style="align-items: center;justify-content: center;" data-url="/post/api/">
+                
+            </div>
+            <div style="align-items: center;justify-content: center;text-align: center;">
+                <a href="#" id="load_more_posts">Load More Posts</a>
+            </div>
         </div>
-    </div>
+ 
   </div>
         
         <!--{% for object in object_list %}-->

@@ -80,9 +80,10 @@ class UserFollowRemoveView(View):
 
 def home(request):
     count=User.objects.count()
-    return render(request,'home.html',{
-        'user_count':count
-    })
+    # return render(request,'home.html',{
+    #     'user_count':count
+    # })
+    return redirect("account_login")
 
 
 

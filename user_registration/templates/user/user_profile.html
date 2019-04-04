@@ -7,8 +7,16 @@ Profile
 
 
 {%block body%}
+<div style="align-items: center;justify-content: center;text-align: center;">
 {% include "posts/post_modal.html" %}
-{{object.username}}<br>
+<div style="display: flex;align-items: center;justify-content: center;text-align: center;">{% if user.profile.image %}
+<img src="{{ user.profile.image.url }}" alt="{{ user.get_full_name }}" id="following-image-{{user.username}}" style="width:75px;float: left;" class="border rounded-circle border-white" />
+{% elif user.socialaccount_set.all.0.get_avatar_url %}
+<img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ user.get_full_name }}" id="following-image-{{user.username}}" style="width:75px;float: left;" class="border rounded-circle border-white" />
+{% else %}
+<img src="{% static 'images/profile.png' %}" alt="{{ user.get_full_name }}" id="following-image-{{user.username}}" style="width:75px;float: left;" class="border rounded-circle border-white" />
+{% endif %}
+<h3><b>{{object.username}}</b></h3></div><br>
 {% ifnotequal request.user.username object.username %}
 <p>
     <a href='{{object.profile.get_follow_url}}' class="user-follow" id='follow-{{object.username}}' data-id='{{object.username}}'>
@@ -17,19 +25,25 @@ Profile
 </p>
 {% endifnotequal  %}
 {% include "user/users_modal.html" with followingusers=object.profile.get_following.all followersusers=object.followed_by.all %}
-<button type="button" class="btn btn-primary user-following-btn" data-toggle="modal" data-target="#FollowingModalLong" id="following-count-{{object.username}}" data-count="{{object.profile.get_following.count}}" data-id='{{request.user.username}}'>
+<button type="button" style="outline:none;border: none;border:0;padding:0;decoration::none;" class="user-following-btn bg-light" data-toggle="modal" data-target="#FollowingModalLong" id="following-count-{{object.username}}" data-count="{{object.profile.get_following.count}}" data-id='{{request.user.username}}'>
   Following: {{object.profile.get_following.count}}
 </button>
-<button type="button" class="btn btn-primary user-followers-btn" data-toggle="modal" data-target="#FollowersModalLong" id="followers-count-{{object.username}}" data-count="{{object.followed_by.all.count}}" data-id='{{request.user.username}}'>
+<button type="button" style="outline:none;border: none;decoration::none;" class="user-followers-btn  bg-light" data-toggle="modal" data-target="#FollowersModalLong" id="followers-count-{{object.username}}" data-count="{{object.followed_by.all.count}}" data-id='{{request.user.username}}'>
   Followers: {{object.followed_by.all.count}}
 </button>
+
 <br><br>
 <h4>Posts</h4>
-    <div id="post-container" data-url="/profile/api/{{object.username}}/">
-        </div>
-        <div>
-            <a href="#" id="load_more_posts">Load More Posts</a>
-        </div>
+</div> 
+<div class="container">
+    <div id="post-container" class="row" style="align-items: center;justify-content: center;" data-url="/profile/api/{{object.username}}/">
+    
+    </div>
+    <div style="align-items: center;justify-content: center;text-align: center;">
+        <a href="#" id="load_more_posts">Load More Posts</a>
+    </div>
+    
+</div>
 
 
 

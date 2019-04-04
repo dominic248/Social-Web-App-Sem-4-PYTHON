@@ -23,12 +23,12 @@
                 <img src="{% static 'images/profile.png' %}" alt="{{ user.get_full_name }}" id="following-image-{{user.username}}" style="width:26px;float: left;" class="border rounded-circle border-white" />
                 {% endif %}
                 {{user.username}}</a> 
-                <a href="{% url 'user-follow' slug=user.username %}" class="btn btn-outline-primary user-following" id='following-{{user.username}}' data-id='{{user.username}}' style="width:90px;float:right;">Follows</a>
+                <a href="{% url 'user-follow' slug=user.username %}" class="btn btn-outline-primary user-following" id='following-{{user.username}}' data-id='{{user.username}}' style="width:90px;float:right;">Following</a>
                     
                 </h5>
             </li>
             {% empty %}
-            <h6 id='notfollow'>Not following any users!</h6>
+            <h6 id='notfollow1'>Not following any users!</h6>
             {% endfor %}
           </ul>
       </div>
@@ -66,12 +66,14 @@
                         {% else %}
                         <a href="{% url 'user-follow' slug=user.user.username %}" class="btn btn-primary user-follower" data-id='{{user.user.username}}' id='follower-{{user.user.username}}' style="width:90px;">Follow</a>
                         {% endif %}
+                        {% ifequal request.user.username object.username %}
                         <a href="{% url 'user-follow-remove' slug=user.user.username %}" class="user-followremove" data-id='{{user.user.username}}' id='follower-{{user.user.username}}' style="width:10px;float:right;text-decoration:none;">&times;</a>
+                        {% endifequal %}
                     </div>
                 </h5>
             </li>
             {% empty %}
-            <h6>Not followed by any users!</h6><br>
+            <h6 id='notfollow2'>Not followed by any users!</h6>
             {% endfor %}
           </ul>
       </div>

@@ -22,8 +22,11 @@ class LikeAPIView(APIView):
         if request.user.is_authenticated:
             is_liked=Post.objects.like_toggle(request.user,post_qs.first())
             serializer= PostModelSerializer(post_qs.first())
+            
             new_serializer_data = dict(serializer.data)
+            
             new_serializer_data.update({'liked':is_liked})
+            
             print(new_serializer_data)
             return Response(new_serializer_data)
         # if request.user.is_authenticated:

@@ -58,18 +58,45 @@ var followersID=$('.user-followers-btn')
                     if(data.following){
                         console.log("Following - follower")
                         followinglistapp.append(html)
-                        document.getElementById(usernameIDlogfollowing).innerHTML="Following: "+data.count         
+                        document.getElementById(usernameIDlogfollowing).innerHTML="Following: "+data.count   
+                        if(document.getElementById(usernameID) !=null){
+                            document.getElementById(usernameID).innerHTML="Following"
+                            document.getElementById(usernameID).classList.remove("btn-primary");
+                            document.getElementById(usernameID).classList.add("btn-outline-primary");
+                        }      
                     }else{
                         console.log("Not Following - follower")
                         document.getElementById(followinglist).remove();
                         document.getElementById(usernameIDlogfollowing).innerHTML="Following: "+data.count
+                        if(document.getElementById(usernameID) !=null){
+                            document.getElementById(usernameID).innerHTML="Follow"
+                            document.getElementById(usernameID).classList.remove("btn-outline-primary");
+                            document.getElementById(usernameID).classList.add("btn-primary");
+                        }
                     }
                     if(data.count===0){
-                        html="<h6 id='notfollow'>Not following any users!</h6>"
+                        html="<h6 id='notfollow1'>Not following any users!</h6>"
                         followinglistapp.append(html)
                         console.log("Not following any users!")
+                    }else if(document.getElementById('notfollow1') !=null){
+                        document.getElementById('notfollow1').remove();
+                    }
+                    
+                }else{
+                    if(data.following){
+                        console.log("Following - follower")
+                        if(document.getElementById(usernameID) !=null){
+                            document.getElementById(usernameID).innerHTML="Following"
+                            document.getElementById(usernameID).classList.remove("btn-primary");
+                            document.getElementById(usernameID).classList.add("btn-outline-primary");
+                        }      
                     }else{
-                        document.getElementById('notfollow').remove();
+                        console.log("Not Following - follower")
+                        if(document.getElementById(usernameID) !=null){
+                            document.getElementById(usernameID).innerHTML="Follow"
+                            document.getElementById(usernameID).classList.remove("btn-outline-primary");
+                            document.getElementById(usernameID).classList.add("btn-primary");
+                        }
                     }
                 }
             },
@@ -111,7 +138,7 @@ var followersID=$('.user-followers-btn')
                     "\'  style=\"width:26px;float: left;\" class=\"border  rounded-circle border-white\" />"
                     var html="<li class='list-group-item' id='following-list-"+data.username+"'><h5>"+
                     "<a href='"+data.url+"' style='text-decoration:none;'>"+imageFormattedHTML+data.username+"</a>"+
-                    "<a href='"+data.url+"follow/' class='btn btn-outline-primary user-following' id='following-"+data.username+"' data-id='"+data.username+"' style='width:90px;float:right;'>Follows</a>"+
+                    "<a href='"+data.url+"follow/' class='btn btn-outline-primary user-following' id='following-"+data.username+"' data-id='"+data.username+"' style='width:90px;float:right;'>Following</a>"+
                     "</h5></li>" 
                     
                     if(data.following){
@@ -124,11 +151,11 @@ var followersID=$('.user-followers-btn')
                         document.getElementById(usernameIDlogfollowing).innerHTML="Following: "+data.count 
                     }
                     if(data.count===0){
-                        html="<h6 id='notfollow'>Not following any users!</h6>"
+                        html="<h6 id='notfollow1'>Not following any users!</h6>"
                         followinglistapp.append(html)
                         console.log("Not following any users!")
-                    }else if(document.getElementById('notfollow') !=null){
-                        document.getElementById('notfollow').remove();
+                    }else if(document.getElementById('notfollow1') !=null){
+                        document.getElementById('notfollow1').remove();
                     }
                 }
             },
@@ -160,17 +187,21 @@ var followersID=$('.user-followers-btn')
             url: followURL,
             success: function(data){
                 if(typeof checkusername==='undefined'){                    
-                    if(data.following===null){
-                        console.log("Remove - follower")
+                    if(data.following){
+                        console.log("Following - following")
+                        followerlistapp.append(html)
+                        document.getElementById(usernameIDlogfollowers).innerHTML="Followers: "+data.count 
+                    }else{
+                        console.log("Not Following - following")
                         document.getElementById(followerlist).remove();
-                        document.getElementById(usernameIDlogfollowers).innerHTML="Followers: "+data.count         
+                        document.getElementById(usernameIDlogfollowers).innerHTML="Followers: "+data.count 
                     }
                     if(data.count===0){
-                        var html="<h6 id='notfollow'>Not followed by any users!</h6>"
+                        var html="<h6 id='notfollow2'>Not followed by any users!</h6>"
                         followerlistapp.append(html)
                         console.log("Not followed by any users!")
-                    }else if(document.getElementById('notfollow') !=null){
-                        document.getElementById('notfollow').remove();
+                    }else if(document.getElementById('notfollow2') !=null){
+                        document.getElementById('notfollow2').remove();
                     }
                 }
             },
@@ -189,18 +220,54 @@ var followersID=$('.user-followers-btn')
         var username=this_.attr("data-id")
         var usernameID="follow-"+username
         console.log(usernameID)
+        var this1=$(this)
+        var this2=$('.user-followers-btn')
+        var this3=$('.user-follow')
+        var username=this1.attr("data-id")
+        var logusername=this2.attr("data-id")
+        var checkusername=this3.attr("data-id")
+        
+        var followerlistapp=$("#follower-list")
+        var usernameIDlogfollowing="following-count-"+checkusername
+        var usernameIDlogfollowers="followers-count-"+checkusername
+        console.log(username,usernameID,checkusername,usernameIDlogfollowers)
         var followURL="/profile/api/"+username+"/follow/"
         
         $.ajax({
             method: "GET",
             url: followURL,
             success: function(data){
+                var followerlist="follower-list-"+data.logged.username
+                var UserImage
+                    if(data.logged.profile.image=== null || data.logged.profile.image === undefined){
+                        UserImageURL="{% static 'images/profile.png' %}";
+                    }else{
+                        UserImageURL=data.logged.profile.image
+                    }
+                    var imageFormattedHTML="<img src=\'"+UserImageURL+"\' alt=\'"+data.logged.first_name+" "+data.logged.last_name+
+                    "\'  style=\"width:26px;float: left;\" class=\"border  rounded-circle border-white\" />"
+                    var html="<li class='list-group-item' id='follower-list-"+data.logged.username+"'><h5>"+
+                    "<a href='"+data.logged.url+"' style='text-decoration:none;'>"+imageFormattedHTML+data.logged.username+"</a>"+
+                    "<a href='"+data.logged.url+"follow/' class='btn btn-outline-primary user-following' id='following-"+data.logged.username+"' data-id='"+data.logged.username+"' style='width:90px;float:right;'>Follows</a>"+
+                    "</h5></li>" 
                 if(data.following){
                     console.log("Following - follow")
+                    followerlistapp.append(html)
                     document.getElementById(usernameID).innerHTML='Unfollow'
+                    document.getElementById(usernameIDlogfollowers).innerHTML="Followers: "+data.count2  
                 }else{
                     console.log("Not Following - follow")
+                    document.getElementById(followerlist).remove();
                     document.getElementById(usernameID).innerHTML='Follow' 
+                    document.getElementById(usernameIDlogfollowers).innerHTML="Followers: "+data.count2  
+                }
+                
+                if(data.count2===0){
+                    var html="<h6 id='notfollow2'>Not followed by any users!</h6>"
+                    followerlistapp.append(html)
+                    console.log("Not followed by any users!")
+                }else if(document.getElementById('notfollow2') !=null){
+                    document.getElementById('notfollow2').remove();
                 }
             },
             error: function(data){
@@ -521,7 +588,7 @@ var followersID=$('.user-followers-btn')
                         "\'  style=\"width:25px;float: left;\" class=\"border  rounded-circle border-white\" />"
                 var postFormattedHTML=
                     //"<div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'>"+
-                         "<div id='post-"+postValue.id+"'><div class='card posts' style='width: 45rem;'>"+
+                         "<div class='col-8' id='post-"+postValue.id+"'><div class='card posts'>"+
                               "<div class='card-body'>"+
                                 "<h5 class='card-title'><a href='"+postUser.url+"' style='text-decoration:none;' id='postUser"+postValue.id+"'>"+imageFormattedHTML+" "+postUser.username+"</a>"+
                                 postDropDown+"</h5>"+

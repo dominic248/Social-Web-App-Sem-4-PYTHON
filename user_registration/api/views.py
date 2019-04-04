@@ -39,9 +39,13 @@ class FollowUnfollowAPIView(APIView):
             is_following=Profile.objects.toggle_follow(request.user,toggle_user)
             user_qs=get_object_or_404(User,username=toggle_user)  
             serializer= UserSerializer(user_qs)
+            serializer2= UserSerializer(request.user)
             new_serializer_data = dict(serializer.data)
+            new_serializer_data2 = dict(serializer2.data)
             new_serializer_data.update({'following': is_following})
             new_serializer_data.update({'count':request.user.profile.following.all().count()})
+            new_serializer_data.update({'count2':toggle_user.followed_by.all().count()})
+            new_serializer_data.update({'logged':new_serializer_data2})
             return Response(new_serializer_data)
         return Response({"message":message},status=400)
 
