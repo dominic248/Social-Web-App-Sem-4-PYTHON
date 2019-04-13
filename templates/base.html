@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{%if user.is_authenticated%}{{user.username}}{%else%}Welcome{%endif%} - {%block head_title%}{%endblock head_title%}</title>
+
+    <!--Google AdSense-->
+    <!--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
+    <!--<script>-->
+      <!--(adsbygoogle = window.adsbygoogle || []).push({-->
+        <!--google_ad_client: "ca-pub-2901069949778423",-->
+        <!--enable_page_level_ads: true-->
+      <!--});-->
+    <!--</script>-->
+    <!--Google AdSense-->
+
+    {% include "base/base_css.html" %}
+
+    {%block head%}
+    {%endblock head%}
+
+</head>
+<!---->
+<body id="outercontent" class="bg-light" ><!--oncontextmenu="return false;"-->
+    <div>
+        {% include "base/navbar.html" with sitename="DMS" link="link" %}
+        <br>
+
+        <div>
+            <div class="container" id="content">
+                <!--<button class="mdc-fab mdc-fab&#45;&#45;mini mdc-fab&#45;&#45;extended" aria-label="Add">-->
+                  <!--<span class="mdc-fab__icon material-icons">add</span>Hi-->
+                <!--</button>-->
+                {%block body%}
+                {%endblock body%}
+            </div>
+        </div>
+    </div>
+    {%block nocontainerbody%}
+    {%endblock nocontainerbody%}
+
+    {% include "base/base_js.html" %}
+    {% include "base/loadPostData.html" %}
+
+    {% block javascript %}
+    {% endblock %}
+    <script>
+    document.getElementById("searchBox").focus();
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<div class='modal fade' id='deleteModal' tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true'>
+  <div class='modal-dialog' role='document'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title' id='modalTitledel'>Delete</h5>
+        <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+          <span aria-hidden='true'>&times;</span>
+        </button>
+      </div>
+      <div class='modal-body'>
+          <p>Delete <span id="modalContentdel"></span> by <span id="modalUserdel"></span>?</p>
+      </div>
+      <div class='modal-footer'>
+        <form id='delform' class='form modal-footer' href='' method='DELETE' >
+            {% csrf_token %}
+                <button id='Delete' type="submit" class="btn btn-secondary" >Confirm Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% comment %} <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitleupd">Update</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+            <div class="form-group">
+            <label for="modalContentupd" class="col-form-label">Content:</label>
+            <textarea class="form-control" id="modalContentupd"></textarea>
+          </div>
+        </form>
+      </div>
+      <form id='updform' class="modal-footer" href='' method='PUT' >
+          {% csrf_token %}
+          <button id='Update' type="submit" class="btn btn-primary">Update</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </form>
+    </div>
+  </div>
+</div> {% endcomment %}
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitleupd">Update</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+            <div class="form-group">
+            <label for="modalContentupd" class="col-form-label">Content:</label>
+            <textarea class="form-control" id="modalContentupd"></textarea>
+            <br>
+            <img id="viewImageupd" src="#" style="display: none;"/>
+            {% comment %} <input type="file" name="image" accept="image/*" class="clearablefileinput" id="modalImageupd" onchange="readUpdModalURL(this);" > {% endcomment %}
+            <div class="input-group">
+              <div class="custom-file">
+                <input type="file" name="image" accept="image/*" class="custom-file-input clearablefileinput" id="modalImageupd" onchange="readUpdModalURL(this);" >
+                <label id="modalImageupd_label" class="custom-file-label" for="modalImageupd">Choose file</label>
+              </div>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="wipeUpd();">X</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <form id='updform' class="modal-footer" href='' method='PUT' >
+          {% csrf_token %}
+          <button id='Update' type="submit" class="btn btn-primary">Update</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="wipeUpd();">Close</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitlecre">Create</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+            <div class="form-group">
+            <label for="modalContentcre" class="col-form-label">Content:</label>
+            <textarea class="form-control" id="modalContentcre"></textarea>
+          </div>
+        </form>
+      </div>
+      <form id='creform' class="modal-footer" href='' method='POST' >
+          {% csrf_token %}
+          <button id='Create' type="submit" class="btn btn-primary">Update</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </form>
+    </div>
+  </div>
+</div>
