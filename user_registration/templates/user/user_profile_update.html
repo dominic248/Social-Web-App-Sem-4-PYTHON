@@ -1,9 +1,5 @@
 {% extends "settings.html" %}
-<<<<<<< HEAD
 {% load static %}
-=======
-
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
 {% load crispy_forms_tags %}
 {% load i18n %}
 
@@ -11,11 +7,7 @@
 
 
 {% block content %}
-<<<<<<< HEAD
 <form class="form" id="userprofileUpd" method="POST" enctype='multipart/form-data'>
-=======
-<form class="form" method="POST" enctype='multipart/form-data'>
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
     {% csrf_token %}
     {{ form.location|as_crispy_field  }}
 
@@ -23,23 +15,20 @@
     {{ form.y }}
     {{ form.width }}
     {{ form.height }}
-<<<<<<< HEAD
     {% if request.user.profile.image %}
-        <img src="{{ request.user.profile.image.url }}" alt="{{ request.user.get_full_name }}" style="width:100px;" class="border rounded-circle border-white" />
+        <img src="{{ request.user.profile.image.url }}" alt="{{ request.user.get_full_name }}" style="width:150px;" class="border rounded-circle border-white" />
     {% elif request.user.socialaccount_set.all.0.get_avatar_url %}
-        <img src="{{ request.user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ request.user.get_full_name }}" style="width:100px;" class="border rounded-circle border-white" />
+        <img src="{{ request.user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ request.user.get_full_name }}" style="width:150px;" class="border rounded-circle border-white" />
     <!--0 indicates the site used to sign up first-->
     {% else %}
-        <img src="{% static 'images/profile.png' %}" alt="{{ request.user.get_full_name }}" style="width:100px;" class="border rounded-circle border-white" />
+        <img src="{% static 'images/profile.png' %}" alt="{{ request.user.get_full_name }}" style="width:150px;" class="border rounded-circle border-white" />
     {% endif %}
     <br>
-=======
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
     <div class="input-group">
         <div class="custom-file">
             {% comment %} <input type="file" name="image" accept="image/*" class="custom-file-input clearablefileinput" id="id_image" onchange="readCreateURL(this);" >
             <label id="id_image_label" class="btn btn-primary" for="id_image">Browse</label> {% endcomment %}
-            <label id="id_image_label" class="btn btn-primary" for="id_image" class="btn btn-primary"> Browse <input type="file" name="image" accept="image/*" class="custom-file-input clearablefileinput" id="id_image" hidden>
+            <label id="id_image_label" for="id_image" class="btn btn-outline-primary"> Browse <input type="file" name="image" accept="image/*" class="custom-file-input clearablefileinput" id="id_image" hidden>
             </label>
             <button class="btn btn-outline-secondary" type="button" onclick="wipeCre();">X</button>
         </div>
@@ -54,18 +43,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-<<<<<<< HEAD
                 <h4 class="modal-title">Crop the photo</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 
-=======
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">Crop the photo</h4>
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
             </div>
             <div class="modal-body">
                 <img src="" id="image" style="max-width: 100%;">
@@ -143,11 +125,7 @@ $(function () {
         $("#id_width").val(cropData["width"]);
         $('#modalCrop').modal('hide');
         console.log(cropData["x"],cropData["y"],cropData["height"],cropData["width"])
-<<<<<<< HEAD
         $("#userprofileUpd").submit();
-=======
-        //$("#signup_form").submit();
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
       });
     });
 

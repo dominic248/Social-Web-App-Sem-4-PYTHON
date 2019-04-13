@@ -362,7 +362,8 @@ var followersID=$('.user-followers-btn')
             var initialURL=postContainer.attr("data-url") || "/post/api/"
             console.log(initialURL)
 
-
+            var searchend=$("#searchBox").val()
+            $("#searchBox").focus().val("").val(searchend)
             searchInput.keyup(function(event){
                 searchQuery=$(this).val()
                 clearTimeout(typingTimer)
@@ -382,10 +383,7 @@ var followersID=$('.user-followers-btn')
 
             var query=getParameterByName('q')
             var postList=[];
-<<<<<<< HEAD
             var postListlength=postList.length
-=======
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
             var nextPostURL;
 
             function updateHashLinks(){
@@ -445,15 +443,12 @@ var followersID=$('.user-followers-btn')
                         $('#deleteModal').modal('hide');
                         console.log(divID)
                         document.getElementById(divID).remove();
-<<<<<<< HEAD
                         console.log(postList)
                         postListlength=postListlength-1
                         console.log(postListlength)
                         if(postListlength<0){
                             document.getElementById('post-container').innerHTML="<h5 id='NoPost'>No Posts currently found!</h5>"
                         }
-=======
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
                     },
                     error: function(data){
                         console.log("error")
@@ -500,7 +495,6 @@ var followersID=$('.user-followers-btn')
                 var formData = new FormData(imageID.closest('form').get(0));    
                 formData.append('pk',postIDupd)
                 formData.append('content',document.getElementById('modalContentupd').value)
-<<<<<<< HEAD
                 console.log(imageID.closest('form').get(0))
                 if(document.getElementById('modalImageupd').value == ''){
                     formData.delete('image');
@@ -509,11 +503,6 @@ var followersID=$('.user-followers-btn')
                     console.log(pair[0]+ ', ' + pair[1]); 
                 }
                 
-=======
-                for (var pair of formData.entries()) {
-                    console.log(pair[0]+ ', ' + pair[1]); 
-                }
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
                 $.ajax({
                     method: "PUT",
                     url: updURL,
@@ -581,12 +570,9 @@ var followersID=$('.user-followers-btn')
            
 
             function attachPost(postValue,prepend){
-<<<<<<< HEAD
                 if($("#NoPost")){
                     $("#NoPost").remove()
                 }
-=======
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
                 var postContent=postValue.content;
                 var postTimeSince=postValue.timesince;
                 var postUser=postValue.user;
@@ -618,11 +604,7 @@ var followersID=$('.user-followers-btn')
                         "\'  style=\"width:25px;float: left;\" class=\"border  rounded-circle border-white\" />"
                 var postFormattedHTML=
                     //"<div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'>"+
-<<<<<<< HEAD
                          "<div class='col-8 posts' id='post-"+postValue.id+"'><div class='card'>"+
-=======
-                         "<div class='col-8' id='post-"+postValue.id+"'><div class='card posts'>"+
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
                               "<div class='card-body'>"+
                                 "<h5 class='card-title'><a href='"+postUser.url+"' style='text-decoration:none;' id='postUser"+postValue.id+"'>"+imageFormattedHTML+" "+postUser.username+"</a>"+
                                 postDropDown+"</h5>"+
@@ -636,10 +618,7 @@ var followersID=$('.user-followers-btn')
                               "</div>"+
                              // "<button class='mdc-icon-button material-icons post-like' data-id='"+postValue.id+"'>share</button>"+
                              "</div><br></div>"
-<<<<<<< HEAD
                 
-=======
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
                 if(prepend==true){
                     postContainer.prepend(postFormattedHTML)
                 }else{
@@ -650,14 +629,9 @@ var followersID=$('.user-followers-btn')
             function parsePost(){
                 //initialContainer.empty();
                 if(postList==0){
-<<<<<<< HEAD
                     document.getElementById('post-container').innerHTML="<h5 id='NoPost'>No Posts currently found!</h5>"
                 }else{
                                        
-=======
-                    postContainer.text("No Posts currently found!")
-                }else{
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
                     $.each(postList,function(key,value){
                         var postKey=key;
                         //console.log(postKey)
@@ -764,13 +738,9 @@ var followersID=$('.user-followers-btn')
                         attachPost(data,true)
                         updateHashLinks()
                         wipeCre()
-<<<<<<< HEAD
                         $('.posts').remove()
                         fetchPost()
                         postListlength=postList.length
-=======
-                        //fetchPost()
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
                     },
                     error: function(data){
                         console.log("ERROR")

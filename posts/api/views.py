@@ -8,7 +8,6 @@ from django.db.models import Q
 from .pagination import StandardResultsPagination
 from user_registration.api.serializers import UserSerializer
 from django.shortcuts import get_object_or_404
-
 import json
 from django.core.exceptions import PermissionDenied
 
@@ -21,23 +20,11 @@ class LikeAPIView(APIView):
         message="Not allowed"
         if request.user.is_authenticated:
             is_liked=Post.objects.like_toggle(request.user,post_qs.first())
-            serializer= PostModelSerializer(post_qs.first())
-            
+            serializer= PostModelSerializer(post_qs.first())           
             new_serializer_data = dict(serializer.data)
-            
             new_serializer_data.update({'liked':is_liked})
-            
             print(new_serializer_data)
             return Response(new_serializer_data)
-        # if request.user.is_authenticated:
-        #     post_qs=Post.objects.filter(pk=pk)
-        #     message="Not allowed"
-        #     is_liked=Post.objects.like_toggle(request.user,post_qs.first())
-        #     serializer= PostModelSerializer(post_qs.first())
-        #     new_serializer_data = dict(serializer.data)
-        #     new_serializer_data.update({'liked':is_liked})
-        #     print(new_serializer_data)
-        #     return Response(new_serializer_data)
         return Response({"message":message},status=400)
 
 class PostDetailAPIView(APIView):
@@ -84,10 +71,12 @@ class PostListAPIView(ListAPIView):
         qs1 = Post.objects.filter(user__in=im_following)
         qs2 = Post.objects.filter(user=self.request.user)
         qs=(qs1 | qs2).distinct().order_by("-updated_on")
+        qsall=Post.objects.all()
         print(self.request.GET)
         query =self.request.GET.get("q",None)
-        if query is not None:
-            qs=qs.filter(
+        print("Query is: ",query)
+        if query != "":
+            qs=qsall.filter(
                 Q(content__icontains=query) |
                 Q(user__username__icontains=query)
             )

@@ -1,9 +1,5 @@
 from django.urls import path,include
-<<<<<<< HEAD
 from .views import home,secret_page,settings,UserDetailView,UserFollowView,UserFollowRemoveView,UserDetailsUpdateView,UserProfileDetailsUpdateView,UserDeleteView
-=======
-from .views import home,secret_page,settings,UserDetailView,UserFollowView,UserFollowRemoveView,UserDetailsUpdateView,UserProfileDetailsUpdateView
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
 from allauth.account.views import EmailView as allauth_AccountEmail
 
 
@@ -15,10 +11,7 @@ urlpatterns=[
     path('accounts/', include('allauth.urls')),
     path('settings/', settings, name='settings'),
     path('settings/<slug>/update/', UserDetailsUpdateView.as_view(), name='upd-user'),
-<<<<<<< HEAD
     path('settings/<slug>/delete/', UserDeleteView.as_view(), name='del-user'),
-=======
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
     path('settings/id/<int:pk>/update/', UserProfileDetailsUpdateView.as_view(), name='upd-profile'),
     path('profile/<slug>/', UserDetailView.as_view(), name='user-profile'),
     path('profile/<slug>/follow/', UserFollowView.as_view(), name='user-follow'),

@@ -19,11 +19,7 @@ Profile
 <h3><b>{{object.username}}</b></h3></div><br>
 {% ifnotequal request.user.username object.username %}
 <p>
-<<<<<<< HEAD
     <a href='{{object.profile.get_follow_url}}' class="user-follow btn btn-primary" id='follow-{{object.username}}' data-id='{{object.username}}'>
-=======
-    <a href='{{object.profile.get_follow_url}}' class="user-follow" id='follow-{{object.username}}' data-id='{{object.username}}'>
->>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
         {% if following %}Unfollow{% else %}Follow{% endif %}
     </a>
 </p>
