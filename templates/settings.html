@@ -38,9 +38,12 @@ Secret
                             <a class="list-group-item list-group-item-action
                                 {% if request.resolver_match.url_name == 'socialaccount_connections' %}active{%endif%}"
                                 href="{% url 'socialaccount_connections' %}">Connections</a>
+<<<<<<< HEAD
                             <a class="list-group-item list-group-item-action
                                 {% if request.resolver_match.url_name == 'del-user' %}active{%endif%}"
                                 href="{% url 'del-user' slug=request.user.username %}">Delete Account</a>
+=======
+>>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
                         </div>
 
 

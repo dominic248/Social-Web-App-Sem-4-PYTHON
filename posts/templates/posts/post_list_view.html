@@ -11,10 +11,16 @@ Posts List
 
 
 <div class="container">
+<<<<<<< HEAD
     <div class="row" style="align-items: center;justify-content: center;">
     <div class='col-8'>
         {% include "posts/post_modal.html" %}
        
+=======
+
+        {% include "posts/post_modal.html" %}
+        {% include "posts/search_posts.html" %}
+>>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
         <form class="form" method="POST" action="{{create_url}}" id="post-form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="card" class="col-12">
@@ -38,8 +44,11 @@ Posts List
                 </div>
             </div>
         </form><br>
+<<<<<<< HEAD
         </div>
     </div>
+=======
+>>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
         <div>
             <div id="post-container" class="row" style="align-items: center;justify-content: center;" data-url="/post/api/">
                 
@@ -51,7 +60,27 @@ Posts List
  
   </div>
         
+<<<<<<< HEAD
 
+=======
+        <!--{% for object in object_list %}-->
+            <!--{{object.content}} |-->
+            <!--{{object.user}}<br>-->
+            <!--{{object.created_on|timesince}}<br>-->
+            <!--<a href="{{object.get_absolute_url}}">View</a> |-->
+            <!--<a href="{{object.get_absolute_url}}edit">Update</a> |-->
+            <!--<a href="{{object.get_absolute_url}}delete">Delete</a>-->
+            <!--<br>-->
+            <!--<hr>-->
+        <!--{% empty %}-->
+            <!--{% if request.GET.q %}-->
+                <!--<h4>No Posts found!</h4>-->
+            <!--{% else %}-->
+                <!--<h4>No Posts yet!</h4>-->
+            <!--{% endif %}-->
+        <!--{% endfor %}-->
+  
+>>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
 
 {%endblock%}
 

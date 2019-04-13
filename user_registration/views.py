@@ -3,7 +3,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+<<<<<<< HEAD
 from django.views.generic import DetailView, UpdateView,DeleteView
+=======
+from django.views.generic import DetailView, UpdateView
+>>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
 from django.contrib.auth import get_user_model
 from django.views import View
 from .models import Profile
@@ -12,7 +16,10 @@ from django.forms.utils import ErrorList
 from django import forms
 from django.core.exceptions import PermissionDenied
 from .forms import UpdateProfileForm,UpdateUserForm
+<<<<<<< HEAD
 from django import http
+=======
+>>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
 
 
 User=get_user_model()
@@ -44,6 +51,7 @@ class UserProfileDetailsUpdateView(UpdateView):
     def get_success_url(self,*args, **kwargs):
         return reverse_lazy("upd-profile", kwargs={'pk': self.request.user.profile.user.id}) #context['profile']
 
+<<<<<<< HEAD
 class UserDeleteView(DeleteView):
     model = User
     template_name = "user/user_delete_view.html"
@@ -60,6 +68,8 @@ class UserDeleteView(DeleteView):
             #raise PermissionDenied
             return http.HttpResponseForbidden("Cannot delete other's account")
 
+=======
+>>>>>>> bf14accb4d811a285714f6f9d735f54a097ba34e
 
 class UserDetailView(DetailView):
     queryset = User.objects.all()
