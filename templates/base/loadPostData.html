@@ -739,8 +739,10 @@ var followersID=$('.user-followers-btn')
                         updateHashLinks()
                         wipeCre()
                         $('.posts').remove()
+                        postListlength=postListlength+1
+                        $('#postChar').html("500")
                         fetchPost()
-                        postListlength=postList.length
+                        
                     },
                     error: function(data){
                         console.log("ERROR")
