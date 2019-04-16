@@ -17,12 +17,6 @@ $('#dropdown').hover(function() {
   $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
 });
 
-//$('#signup_form').submit(function(event){
-//    event.preventDefault()
-//    var this_=$(this)
-//    console.log(event)
-//    console.log(this_)
-//});
 
 
 

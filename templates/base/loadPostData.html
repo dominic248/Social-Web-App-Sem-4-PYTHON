@@ -447,7 +447,7 @@ var followersID=$('.user-followers-btn')
                         postListlength=postListlength-1
                         console.log(postListlength)
                         if(postListlength<0){
-                            document.getElementById('post-container').innerHTML="<h5 id='NoPost'>No Posts currently found!</h5>"
+                            document.getElementById('post-container').innerHTML="<h6 id='NoPost'>No Posts currently found!</h6>"
                         }
                     },
                     error: function(data){
@@ -604,7 +604,7 @@ var followersID=$('.user-followers-btn')
                         "\'  style=\"width:25px;float: left;\" class=\"border  rounded-circle border-white\" />"
                 var postFormattedHTML=
                     //"<div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'>"+
-                         "<div class='col-8 posts' id='post-"+postValue.id+"'><div class='card'>"+
+                         "<div class='col-8 posts' id='post-"+postValue.id+"'><div class='card' style='border-radius: 12px;'>"+
                               "<div class='card-body'>"+
                                 "<h5 class='card-title'><a href='"+postUser.url+"' style='text-decoration:none;' id='postUser"+postValue.id+"'>"+imageFormattedHTML+" "+postUser.username+"</a>"+
                                 postDropDown+"</h5>"+
@@ -629,7 +629,7 @@ var followersID=$('.user-followers-btn')
             function parsePost(){
                 //initialContainer.empty();
                 if(postList==0){
-                    document.getElementById('post-container').innerHTML="<h5 id='NoPost'>No Posts currently found!</h5>"
+                    document.getElementById('post-container').innerHTML="<h6 id='NoPost'>No Posts currently found!</h6>"
                 }else{
                                        
                     $.each(postList,function(key,value){
@@ -671,9 +671,12 @@ var followersID=$('.user-followers-btn')
                             postList=data
                             attachPost(postList)
                             $("#load_more_posts").css("display","none")
+                            
                         }
-                        //console.log(postList)
+                        
                         updateHashLinks()
+                        postListlength=postList.length
+                        console.log(postListlength)
                     },
                     error: function(data){
                         console.log("ERROR")
@@ -751,4 +754,5 @@ var followersID=$('.user-followers-btn')
                 })
             })
         }
+
 </script>

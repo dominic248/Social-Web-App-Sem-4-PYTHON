@@ -8,19 +8,20 @@ Posts
 
 {%block body%}
 {% include "posts/post_modal.html" %}
-        <div id="post-container" data-url="/post/api/{{object.id}}/">
-        </div>
+<div data-url="/post/api/{{object.id}}/" id="post-container">
+</div>
 
-        <div>
-            <a href="#" id="load_more_posts">Load More Posts</a>
-        </div>
+<div>
+    <a href="#" id="load_more_posts">Load More Posts</a>
+</div>
 
 {%endblock%}
 
 {% block javascript %}
-    <script>
+<script>
         $(document).ready(function(){
             loadPostData("post-container")
         });
-    </script>
+
+</script>
 {% endblock %}

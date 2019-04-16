@@ -8,22 +8,25 @@ Posts List
 
 {%block body%}
 {% include "posts/post_modal.html" %}
-<h4>{{obj.tag}}</h4>
-
-<div id="post-container" data-url="/tags/{{obj.tag}}/api/">
-        </div>
-        <div>
-            <a href="#" class="btn btn-outline-primary" id="load_more_posts">Load More Posts</a>
-        </div>
-
+<h4 style="align-items: center;justify-content: center;text-align: center;">#{{obj.tag}}</h4>
+<div class="container">
+    <div id="post-container" class="row" style="align-items: center;justify-content: center;"
+         data-url="/tags/{{obj.tag}}/api/">
+    </div>
+    <div style="align-items: center;justify-content: center;text-align: center;">
+        <a href="#" class="btn btn-outline-primary" id="load_more_posts">Load More</a>
+    </div>
+    <br>
+</div>
 
 
 {%endblock%}
 
 {% block javascript %}
-    <script>
-        $(document).ready(function(){
-            loadPostData("post-container")
-        });
-    </script>
+<script>
+    $(document).ready(function(){
+        loadPostData("post-container")
+    });
+
+</script>
 {% endblock %}

@@ -7,34 +7,43 @@
 
 
 {% block content %}
-<form class="form" id="userprofileUpd" method="POST" enctype='multipart/form-data'>
+<form class="form" enctype='multipart/form-data' id="userprofileUpd" method="POST">
     {% csrf_token %}
-    {{ form.location|as_crispy_field  }}
+    {{ form.location|as_crispy_field }}
 
     {{ form.x }}
     {{ form.y }}
     {{ form.width }}
     {{ form.height }}
     {% if request.user.profile.image %}
-        <img src="{{ request.user.profile.image.url }}" alt="{{ request.user.get_full_name }}" style="width:150px;" class="border rounded-circle border-white" />
+    <img alt="{{ request.user.get_full_name }}" class="border rounded-circle border-white" src="{{ request.user.profile.image.url }}"
+         style="width:150px;"/>
     {% elif request.user.socialaccount_set.all.0.get_avatar_url %}
-        <img src="{{ request.user.socialaccount_set.all.0.get_avatar_url }}" alt="{{ request.user.get_full_name }}" style="width:150px;" class="border rounded-circle border-white" />
+    <img alt="{{ request.user.get_full_name }}" class="border rounded-circle border-white"
+         src="{{ request.user.socialaccount_set.all.0.get_avatar_url }}" style="width:150px;"/>
     <!--0 indicates the site used to sign up first-->
     {% else %}
-        <img src="{% static 'images/profile.png' %}" alt="{{ request.user.get_full_name }}" style="width:150px;" class="border rounded-circle border-white" />
+    <img alt="{{ request.user.get_full_name }}" class="border rounded-circle border-white" src="{% static 'images/profile.png' %}"
+         style="width:150px;"/>
     {% endif %}
     <br>
     <div class="input-group">
         <div class="custom-file">
-            {% comment %} <input type="file" name="image" accept="image/*" class="custom-file-input clearablefileinput" id="id_image" onchange="readCreateURL(this);" >
-            <label id="id_image_label" class="btn btn-primary" for="id_image">Browse</label> {% endcomment %}
-            <label id="id_image_label" for="id_image" class="btn btn-outline-primary"> Browse <input type="file" name="image" accept="image/*" class="custom-file-input clearablefileinput" id="id_image" hidden>
+            {% comment %} <input accept="image/*" class="custom-file-input clearablefileinput" id="id_image" name="image"
+                                 onchange="readCreateURL(this);" type="file">
+            <label class="btn btn-primary" for="id_image" id="id_image_label">Browse</label> {% endcomment %}
+            <label class="btn btn-outline-primary" for="id_image" id="id_image_label"> Browse <input accept="image/*"
+                                                                                                     class="custom-file-input clearablefileinput"
+                                                                                                     hidden
+                                                                                                     id="id_image"
+                                                                                                     name="image"
+                                                                                                     type="file">
             </label>
-            <button class="btn btn-outline-secondary" type="button" onclick="wipeCre();">X</button>
+
         </div>
-    </div> 
+    </div>
     <br>
-    <input type="submit" value="Update Profile" class="btn btn-primary mr-2">
+    <input class="btn btn-primary mr-2" type="submit" value="Update Profile">
 </form>
 {%endblock%}
 
@@ -47,7 +56,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                
+
             </div>
             <div class="modal-body">
                 <img src="" id="image" style="max-width: 100%;">
@@ -128,6 +137,7 @@ $(function () {
         $("#userprofileUpd").submit();
       });
     });
+
 
 </script>
 {% endblock %}

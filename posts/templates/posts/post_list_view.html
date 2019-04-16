@@ -8,58 +8,59 @@ Posts List
 
 
 {%block body%}
-
+{% include "posts/post_modal.html" %}
 
 <div class="container">
     <div class="row" style="align-items: center;justify-content: center;">
-    <div class='col-8'>
-        {% include "posts/post_modal.html" %}
-       
-        <form class="form" method="POST" action="{{create_url}}" id="post-form" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="card" class="col-12">
-                <div class="card-body">
-                    {{ createForm.content|as_crispy_field }}
-                    <span id='postChar'></span><br><img id="viewImagecre" src="#" style="display: none;"/>
-                    <div class="input-group">
-                        <div class="custom-file">
-                            <input type="file" name="image" accept="image/*" class="custom-file-input clearablefileinput" id="id_image" onchange="readCreateURL(this);" >
-                            <label id="id_image_label" class="custom-file-label" for="id_image">Choose file</label>
+        <div class='col-8'>
+
+            <form action="{{create_url}}" class="form" enctype="multipart/form-data" id="post-form" method="POST">
+                {% csrf_token %}
+                <div class="card" class="col-12">
+                    <div class="card-body">
+                        {{ createForm.content|as_crispy_field }}
+                        <span id='postChar'></span><br><img id="viewImagecre" src="#" style="display: none;"/>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input accept="image/*" class="custom-file-input clearablefileinput" id="id_image"
+                                       name="image" onchange="readCreateURL(this);"
+                                       type="file">
+                                <label class="custom-file-label" for="id_image" id="id_image_label">Choose file</label>
+                            </div>
+
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" onclick="wipeCre();" type="button">X</button>
+                            </div>
                         </div>
-                        
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" onclick="wipeCre();">X</button>
+                        <div>
+                            {% comment %} <input accept="image/*" class="fileinput fileUpload" id="id_image" name="image"
+                                                 required="" type="file"> {% endcomment %}
+                            <br><input class="btn btn-primary" type="submit" value="Post">
                         </div>
-                    </div>
-                    <div>      
-                        {% comment %} <input type="file" name="image" accept="image/*" class="fileinput fileUpload" required="" id="id_image"> {% endcomment %}
-                        <br><input class="btn btn-primary" type="submit" value="Post">
                     </div>
                 </div>
-            </div>
-        </form><br>
-        </div>
-    </div>
-        <div>
-            <div id="post-container" class="row" style="align-items: center;justify-content: center;" data-url="/post/api/">
-                
-            </div>
-            <div style="align-items: center;justify-content: center;text-align: center;">
-                <a href="#" class="btn btn-outline-primary" id="load_more_posts">Load More Posts</a>
-            </div>
+            </form>
             <br>
         </div>
- 
-  </div>
-        
+    </div>
+    <div class="row" data-url="/post/api/" id="post-container" style="align-items: center;justify-content: center;">
+
+    </div>
+    <div style="align-items: center;justify-content: center;text-align: center;">
+        <a class="btn btn-outline-primary" href="#" id="load_more_posts">Load More</a>
+    </div>
+    <br>
+</div>
+
 
 {%endblock%}
 
 {% block javascript %}
-    <script>
+<script>
         $(document).ready(function(){
             loadPostData("post-container")
         });
         
-    </script>
+
+</script>
 {% endblock %}

@@ -12,10 +12,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -26,8 +24,7 @@ SECRET_KEY = '9rj5op8bsb%&1b#y-1(*^=xnizxq)tmkc#1%r!yb^^du+r1ngq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['53a7ff2e.ngrok.io','127.0.0.1']
-
+ALLOWED_HOSTS = ['53a7ff2e.ngrok.io', '127.0.0.1']
 
 # Application definition
 
@@ -56,34 +53,33 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.twitter',
 ]
 
-
-SITE_ID=1
-ACCOUNT_EMAIL_REQUIRED=True
+SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 ACCOUNT_FORMS = {
     'signup': 'user_registration.forms.CustomSignupForm',
 }
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT=100
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 100
 
-LOGIN_REDIRECT_URL='/post/'
-#LOGOUT_REDIRECT_URL='account_login'
+LOGIN_REDIRECT_URL = '/post/'
+# LOGOUT_REDIRECT_URL='account_login'
 
-ACCOUNT_LOGOUT_REDIRECT_URL ='account_login'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
-ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS=True
-ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE=False
-ACCOUNT_LOGIN_ON_PASSWORD_RESET=True
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION=True
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=1    # 1 day
-ACCOUNT_UNIQUE_EMAIL=True
-SOCIALACCOUNT_AUTO_SIGNUP=False
-AUTHENTICATION_BACKENDS=[
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1  # 1 day
+ACCOUNT_UNIQUE_EMAIL = True
+SOCIALACCOUNT_AUTO_SIGNUP = False
+AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.AllowAllUsersModelBackend',
     'django.contrib.auth.backends.AllowAllUsersRemoteUserBackend',
 ]
-SESSION_EXPIRE_AT_BROWSER_CLOSE=True
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 30 # One month (defined in seconds)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 30  # One month (defined in seconds)
 
 REST_FRAMEWORK = {
     # 'DEFAULT_MODEL_SERIALIZER_CLASS':
@@ -132,7 +128,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'socialmedia.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -142,7 +137,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -162,7 +156,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -176,11 +169,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 # STATIC_URL = '/static/'
-
 
 
 # STATICFILES_STORAGE ='django.contrib.staticfiles.storage.StaticFilesStorage'
@@ -196,17 +187,15 @@ STATICFILES_DIRS = (
 )
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'staticfiles')
 
-MEDIA_URL='/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
-
-
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-#EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com' # mail service smtp
-EMAIL_HOST_USER = 'dms24081999@gmail.com' # email id
-EMAIL_HOST_PASSWORD = 'fsawkexebivuyccd' #password
+EMAIL_HOST = 'smtp.gmail.com'  # mail service smtp
+EMAIL_HOST_USER = 'dms24081999@gmail.com'  # email id
+EMAIL_HOST_PASSWORD = 'fsawkexebivuyccd'  # password
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
