@@ -171,13 +171,13 @@ This mini project can help to connect users from all around the globe to share t
 This mini project can be deployed and hosted from Heroku server, to help connect users from all around the globe to share their thoughts and pictures. Users can meet new people and learn the way of communicating with others. Users can share their knowledge and skills on this web app.
 
 ## **References**
-DR.NAGESHWAR RAO – "Core Python Programming"
-[www.tutorialspoint.com/python](http://www.tutorialspoint.com/python)
-[www.geeksforgeeks.com/python3](http://www.geeksforgeeks.com/python3)
-CodingEntrepreneurs [https://www.youtube.com/channel/UCWEHue8kksIaktO8KTTN_zg](https://www.youtube.com/channel/UCWEHue8kksIaktO8KTTN_zg)
-Max Goodridge [https://www.youtube.com/channel/UCAx4nmhI7S1RcPiaG-Uw0tg](https://www.youtube.com/channel/UCAx4nmhI7S1RcPiaG-Uw0tg)
-JustDjango [https://www.youtube.com/channel/UCRM1gWNTDx0SHIqUJygD-kQ](https://www.youtube.com/channel/UCRM1gWNTDx0SHIqUJygD-kQ)
-The Dumbfounds [https://www.youtube.com/channel/UC33uwXXDrI5TxG4IXnjS28g](https://www.youtube.com/channel/UC33uwXXDrI5TxG4IXnjS28g)
-[https://simpleisbetterthancomplex.com/](https://simpleisbetterthancomplex.com/)
-[https://stackoverflow.com/](https://stackoverflow.com/)
+* DR.NAGESHWAR RAO – "Core Python Programming"
+* [www.tutorialspoint.com/python](http://www.tutorialspoint.com/python)
+* [www.geeksforgeeks.com/python3](http://www.geeksforgeeks.com/python3)
+* CodingEntrepreneurs [https://www.youtube.com/channel/UCWEHue8kksIaktO8KTTN_zg](https://www.youtube.com/channel/UCWEHue8kksIaktO8KTTN_zg)
+* Max Goodridge [https://www.youtube.com/channel/UCAx4nmhI7S1RcPiaG-Uw0tg](https://www.youtube.com/channel/UCAx4nmhI7S1RcPiaG-Uw0tg)
+* JustDjango [https://www.youtube.com/channel/UCRM1gWNTDx0SHIqUJygD-kQ](https://www.youtube.com/channel/UCRM1gWNTDx0SHIqUJygD-kQ)
+* The Dumbfounds [https://www.youtube.com/channel/UC33uwXXDrI5TxG4IXnjS28g](https://www.youtube.com/channel/UC33uwXXDrI5TxG4IXnjS28g)
+* [https://simpleisbetterthancomplex.com/](https://simpleisbetterthancomplex.com/)
+* [https://stackoverflow.com/](https://stackoverflow.com/)
 
