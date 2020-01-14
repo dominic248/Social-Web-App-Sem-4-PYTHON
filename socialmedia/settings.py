@@ -24,7 +24,7 @@ SECRET_KEY = '9rj5op8bsb%&1b#y-1(*^=xnizxq)tmkc#1%r!yb^^du+r1ngq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['53a7ff2e.ngrok.io', '127.0.0.1']
+ALLOWED_HOSTS = ['53a7ff2e.ngrok.io', '127.0.0.1','localhost']
 
 # Application definition
 
@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.twitter',
+
+    'oauth2_provider',
+    'corsheaders',
 ]
 
 SITE_ID = 1
@@ -77,6 +80,7 @@ SOCIALACCOUNT_AUTO_SIGNUP = False
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.AllowAllUsersModelBackend',
     'django.contrib.auth.backends.AllowAllUsersRemoteUserBackend',
+    'oauth2_provider.backends.OAuth2Backend',
 ]
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30  # One month (defined in seconds)
@@ -90,14 +94,17 @@ REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
     # ),
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework.authentication.SessionAuthentication',
-    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -199,3 +206,5 @@ EMAIL_HOST_USER = 'dms24081999@gmail.com'  # email id
 EMAIL_HOST_PASSWORD = 'hpeytpfcstxsdenv'  # password
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+CORS_ORIGIN_ALLOW_ALL = True

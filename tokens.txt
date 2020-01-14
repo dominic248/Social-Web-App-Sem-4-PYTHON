@@ -13,3 +13,10 @@ nxLFSLjFyQEKyGqv5vsYeTx3XJgvkBTR
 Google
 624680967699-bt9qh2hknm7rb4qtsfojegdp9fhoti0s.apps.googleusercontent.com
 2OMQwEpT4xCyjePdOsU8fD1c
+
+to get code
+http://localhost:8000/o/authorize/?response_type=code&client_id=<client_id>&redirect_uri=<redirect_uri>
+To get access_token
+curl -X POST -d "grant_type=authorization_code&client_id=<client_id>&client_secret=<client_secret>&code=<code>" http://localhost:8000/o/token/
+To get resource:
+curl http://localhost:8000/api/hello/ -H "Authorization: Bearer <access_token>"
