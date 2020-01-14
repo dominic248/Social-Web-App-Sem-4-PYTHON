@@ -1,9 +1,10 @@
 mediafiles/
 db.sqlite3
 # Byte-compiled / optimized / DLL files
-**/__pycache__
-**/migrations
+**/__pycache__/
+**/migrations/
 __pycache__/
+migrations/
 *.py[cod]
 *$py.class
 
