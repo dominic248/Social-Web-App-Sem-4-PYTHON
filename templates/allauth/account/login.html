@@ -32,8 +32,7 @@
 <form class="login" method="POST" action="{% url 'account_login' %}" novalidate>
     {% csrf_token %}
     <!--{{ form|crispy }}-->
-    {% include "components/errors/error_box_type1.html" with errors=form.non_field_errors
-    error_print=form.non_field_errors|striptags %}
+    {% include "components/errors/error_box_type1.html" with errors=form.non_field_errors error_print=form.non_field_errors|striptags %}
 
     <div class="form-row">
         <div class="form-group col-md-6 mb-0">

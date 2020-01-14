@@ -598,13 +598,13 @@ var followersID=$('.user-followers-btn')
                 if(postValue.image === null || postValue.image === undefined){
                     postImage=""
                 }else{
-                    postImage="<img src=\'"+postValue.image+"\' id='postImage"+postValue.id+"' />"
+                    postImage="<img src=\'"+postValue.image+"\' id='postImage"+postValue.id+"' style='height:25rem;object-fit: contain;'/>"
                 }
                 var imageFormattedHTML="<img src=\'"+postUserImage+"\' alt=\'"+postUser.first_name+" "+postUser.last_name+
                         "\'  style=\"width:25px;float: left;\" class=\"border  rounded-circle border-white\" />"
                 var postFormattedHTML=
                     //"<div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'>"+
-                         "<div class='col-8 posts' id='post-"+postValue.id+"'><div class='card' style='border-radius: 12px;'>"+
+                         "<div class='col-4 posts' id='post-"+postValue.id+"'><div class='card' style='border-radius: 12px;'>"+
                               "<div class='card-body'>"+
                                 "<h5 class='card-title'><a href='"+postUser.url+"' style='text-decoration:none;' id='postUser"+postValue.id+"'>"+imageFormattedHTML+" "+postUser.username+"</a>"+
                                 postDropDown+"</h5>"+
