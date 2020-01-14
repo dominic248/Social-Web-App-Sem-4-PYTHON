@@ -5,7 +5,8 @@ from allauth.socialaccount.models import SocialAccount
 from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
 
-User=get_user_model()
+User = get_user_model()
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,17 +15,18 @@ class ProfileSerializer(serializers.ModelSerializer):
             'location',
             'image',
         ]
-      
+
 
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
-    url=serializers.SerializerMethodField()
-    
+    url = serializers.SerializerMethodField()
+
     # current_user =  serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault(),context={'request': request})
     current_user = serializers.SerializerMethodField('curruser')
+
     class Meta:
-        model=User
-        fields=[
+        model = User
+        fields = [
             'id',
             'username',
             'first_name',
@@ -42,8 +44,5 @@ class UserSerializer(serializers.ModelSerializer):
         except:
             pass
 
-    def get_url(self,obj):
-        return reverse_lazy("user-profile",kwargs={"slug":obj.username})
-
-
-
+    def get_url(self, obj):
+        return reverse_lazy("user-profile", kwargs={"slug": obj.username})

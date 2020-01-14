@@ -1,9 +1,10 @@
-from django.urls import path,include
-from .views import PostListAPIView,PostCreateAPIView,\
-    LikeAPIView,PostDetailAPIView,PostDeleteAPIView,PostUpdateAPIView
+from django.urls import path
 
-app_name='posts-api'
-urlpatterns=[
+from .views import PostListAPIView, PostCreateAPIView, \
+    LikeAPIView, PostDetailAPIView, PostDeleteAPIView, PostUpdateAPIView
+
+app_name = 'posts-api'
+urlpatterns = [
     path('', PostListAPIView.as_view(), name='list'),
     path('<int:pk>/', PostDetailAPIView.as_view(), name='detail'),
     path('<int:pk>/delete/', PostDeleteAPIView.as_view(), name='delete'),

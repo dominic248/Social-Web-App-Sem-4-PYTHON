@@ -1,4 +1,5 @@
-<form method="GET" action='{% url "post:list" %}' id="search">
-    <input id="searchBox" type="text" name="q" class="form-control" size="50" onfocus="this.value=this.value;" placeholder="Search..." value="{{request.GET.q}}" />
+<form action='{% url "post:list" %}' id="search" method="GET">
+    <input class="form-control" id="searchBox" name="q" onfocus="this.value=this.value;" placeholder="Search..." size="50"
+           type="text" value="{{request.GET.q}}"/>
 </form>
 <br>

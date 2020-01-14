@@ -10,7 +10,7 @@ img {
 
 @media print {
     html, body {
-       display: none;  /* hide whole page */
+        display: none;  /* hide whole page */
     }
 }
 

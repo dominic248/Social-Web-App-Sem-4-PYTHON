@@ -2,14 +2,16 @@ from django import forms
 
 from .models import Post
 
+
 class PostModelForm(forms.ModelForm):
-    content=forms.CharField(label='',widget=forms.Textarea(
-        attrs={'placeholder':"Your message",'rows':"5"}
+    content = forms.CharField(label='', widget=forms.Textarea(
+        attrs={'placeholder': "Your message", 'rows': "5"}
     ))
-    image=forms.ImageField(label='',widget=forms.FileInput())
+    image = forms.ImageField(label='', widget=forms.FileInput())
+
     class Meta:
-        model=Post
-        fields=[
+        model = Post
+        fields = [
             # "user",
             "content",
             "image",

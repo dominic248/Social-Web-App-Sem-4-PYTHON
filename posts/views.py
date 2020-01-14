@@ -1,13 +1,16 @@
-from django.shortcuts import render, HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
-from .models import Post
-from .forms import PostModelForm
-from django.urls import reverse_lazy
-from .mixins import FormUserNeededMixin, UserOwnerMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
+from django.shortcuts import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+
+
+from .forms import PostModelForm
+from .mixins import FormUserNeededMixin, UserOwnerMixin
+from .models import Post
+
 
 class PostCreateView(FormUserNeededMixin, CreateView):
     template_name = "posts/post_create_view.html"
@@ -62,9 +65,9 @@ class PostListView(ListView):
     def get_queryset(self, *args, **kwargs):
         qs = Post.objects.all()
         print(self.request.GET)
-        query =self.request.GET.get("q",None)
+        query = self.request.GET.get("q", None)
         if query is not None:
-            qs=qs.filter(
+            qs = qs.filter(
                 Q(content__icontains=query) |
                 Q(user__username__icontains=query)
             )
@@ -72,7 +75,7 @@ class PostListView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(PostListView, self).get_context_data(*args, **kwargs)
-        context['createForm']=PostModelForm()
-        context['create_url']=reverse_lazy("post:create")
+        context['createForm'] = PostModelForm()
+        context['create_url'] = reverse_lazy("post:create")
         print(context)
         return context
