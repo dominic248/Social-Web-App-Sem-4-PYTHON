@@ -63,7 +63,7 @@ User can go in the settings page after login and update his name, location, prof
 **2. Email sent for verification after Sign-Up or if user has not yet verified his Email (user-dms24):**
 ![image alt text](docs/images/image_1.png)
 
-**3. Verification Email Sent from** [dms24081999@gmail.com](mailto:dms24081999@gmail.com) **configured in settings.py file under socialmedia folder (user-dms24).**
+**3. Verification Email Sent from email configured in settings.py file under socialmedia folder (user-dms24).**
 ![image alt text](docs/images/image_2.png)
 
 **4. Confirm Email address page from verification link (user-dms24):**
