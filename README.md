@@ -1,5 +1,6 @@
-# **TOPIC - SOCIAL MEDIA WEB APP**
 
+# **SOCIAL MEDIA WEB APP**
+<!-- GitAds-Verify: BZLEYUNTMWZKYYRKNEXPFTO5CC1TR6MP -->
 ## **Introduction**
 Our mini project is based on the topic Social Media Web App. This Python project aims at connecting different people around the world together to share thoughts, morals or pictures. Django Web App framework of Python is used to create this project.\
 Dynamic web app using Django, Django-REST-Framework. The technologies used were Django, Django-REST-Framework, HTML5, CSS3, JavaScript, jQuery, AJAX, JSON, Bootstrap-4, MySQL/SQLite3/any type of SQL with the help of Django. The top functionalities are Search without reload via AJAX and JSON, check if username/email is already registered and notify before as well as after submitting. Follow/Unfollow users without reload via AJAX, Create/Update/Delete Posts without reload via AJAX, JSON. API's were created for all AJAX/JSON functionalities.
